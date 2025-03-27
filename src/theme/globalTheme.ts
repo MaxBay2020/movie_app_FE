@@ -82,6 +82,19 @@ const globalTheme = createTheme({
                     fontFamily: 'montserrat, sans-serif'
                 }
             }
+        },
+        MuiCssBaseline: {
+            styleOverrides: theme => ({
+                '*': {
+                    margin: 0,
+                    padding: 0,
+                    boxSizing: 'border-box',
+                },
+                'body': {
+                    // margin: 0,
+                    backgroundColor: theme.palette.bgColor.main,
+                }
+            })
         }
     }
 })

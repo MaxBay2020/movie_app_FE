@@ -8,7 +8,8 @@ const waveStyle = {
         height: '150px',
         bottom: 0,
         left: 0,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        index: -999
     }
 }
 

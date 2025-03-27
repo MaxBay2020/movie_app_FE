@@ -1,9 +1,10 @@
 import {Button, Container, Typography} from "@mui/material";
+import LoginForm from "../../components/auth/loginForm/LoginForm";
 
 const AuthPage = () => {
     return (
         <Container>
-            login
+            <LoginForm />
 
         </Container>
     );

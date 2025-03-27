@@ -19,6 +19,9 @@ const globalTheme = createTheme({
         }
     },
     typography: {
+        allVariants: {
+            color: '#fff',
+        },
         h1: {
             fontSize: '64px',
             lineHeight: '80px',
@@ -66,12 +69,14 @@ const globalTheme = createTheme({
             lineHeight: '24px',
             letterSpacing: '0',
             fontWeight: 700,
+            color: '#fff',
         },
         bodySmall: {
             fontSize: '14px',
             lineHeight: '24px',
             letterSpacing: '0',
             fontWeight: 400,
+            color: '#fff',
         },
         bodyExtraSmall: {
             fontSize: '12px',
@@ -100,7 +105,7 @@ const globalTheme = createTheme({
                     margin: 0,
                     padding: 0,
                     boxSizing: 'border-box',
-                    color: '#C3C8D4'
+                    color: '#fff'
                 },
                 'body': {
                     backgroundColor: theme.palette.bgColor.main,

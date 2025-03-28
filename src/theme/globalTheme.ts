@@ -105,7 +105,7 @@ const globalTheme = createTheme({
                     margin: 0,
                     padding: 0,
                     boxSizing: 'border-box !important',
-                    color: '#fff'
+                    color: '#fff !important'
                 },
                 'body': {
                     backgroundColor: theme.palette.bgColor.main,
@@ -114,7 +114,7 @@ const globalTheme = createTheme({
                     textDecoration: 'none',
                 }
             })
-        }
+        },
     }
 })
 

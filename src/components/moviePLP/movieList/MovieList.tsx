@@ -4,6 +4,8 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import {Link} from "react-router-dom";
 import MovieCard from "../../movieCard/MovieCard";
+import MyPagination from "../../pagination/Pagination";
+import {useState} from "react";
 
 type MovieListPropsType = {
     movieList: movieType[]
@@ -11,9 +13,15 @@ type MovieListPropsType = {
 
 const MovieList = ({movieList}: MovieListPropsType) => {
 
+    const [page, setPage] = useState<number>(1)
+
 
     const logoutUser = () => {
         console.log('logoutUser')
+    }
+
+    const changePage = (_e, newPage) => {
+        setPage(newPage)
     }
 
     return (
@@ -113,6 +121,15 @@ const MovieList = ({movieList}: MovieListPropsType) => {
                         }
 
                     </Grid>
+                </Grid>
+
+                {/* pagination */}
+                <Grid>
+                    <MyPagination
+                        count={10}
+                        page={page}
+                        onChange={(e, value) => changePage(e, value)}
+                    />
                 </Grid>
             </Grid>
         </>

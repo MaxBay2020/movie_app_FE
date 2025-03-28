@@ -10,6 +10,7 @@ import {lazy, memo, useCallback, useEffect, useRef, useState} from "react";
 import {MAX_IMAGE_SIZE} from "../../utils/helper";
 import {useParams} from "react-router-dom";
 import {moviesDummyData} from "../../data/data";
+import KeyboardReturnOutlinedIcon from '@mui/icons-material/KeyboardReturnOutlined';
 
 const AlertDialog = lazy(() => import('../alert/Alert'))
 
@@ -186,6 +187,49 @@ const MovieEditionForm = () => {
         </Box>
     )
 
+    const renderMovieTitle = () => (
+        <Grid
+            container
+            sx={{
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+            }}
+            spacing={{
+                xs: 2,
+                md: 5
+            }}
+        >
+            <Grid>
+                <IconButton onClick={() => handleOpenAlertDialog()}>
+                    <KeyboardReturnOutlinedIcon />
+                </IconButton>
+            </Grid>
+            <Grid>
+                <Typography
+                    noWrap
+                    sx={{
+                        typography: {
+                            xs: 'h3',
+                            md: 'h2'
+                        }
+                    }}
+                >
+                    Edit movie
+                    <Typography
+                        variant='bodySmall'
+                        sx={{
+                            maxWidth: '300px',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                        }}
+                    >
+                        - {movie.title}
+                    </Typography>
+                </Typography>
+            </Grid>
+        </Grid>
+    )
+
 
     return (
         <form onSubmit={handleSubmit(createMovie)}>
@@ -207,29 +251,7 @@ const MovieEditionForm = () => {
                 {
                     !isMediumScreen
                     &&
-                    <Grid>
-                        <Typography
-                            noWrap
-                            sx={{
-                                typography: {
-                                    xs: 'h3',
-                                    md: 'h2'
-                                }
-                            }}
-                        >
-                            Edit movie
-                            <Typography
-                                variant='bodySmall'
-                                sx={{
-                                    maxWidth: '300px',
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                }}
-                            >
-                                - {movie.title}
-                            </Typography>
-                        </Typography>
-                    </Grid>
+                    <Grid>{ renderMovieTitle() }</Grid>
                 }
 
 
@@ -274,34 +296,7 @@ const MovieEditionForm = () => {
                                                 justifyContent: 'space-between'
                                             }}
                                         >
-                                            <Grid>
-                                                <Typography
-                                                    sx={{
-                                                        typography: {
-                                                            xs: 'h3',
-                                                            md: 'h2'
-                                                        }
-                                                    }}
-                                                >
-                                                    Edit movie
-                                                </Typography>
-                                            </Grid>
-                                            <Grid >
-                                                <Typography
-                                                    variant='bodySmall'
-                                                    noWrap
-                                                    sx={{
-                                                        display: 'block',
-                                                        maxWidth: '180px',
-                                                        overflow: 'hidden',
-                                                        textOverflow: 'ellipsis',
-                                                        height: '100%'
-                                                    }}
-                                                >
-                                                    &nbsp;- {movie.title}
-                                                </Typography>
-                                            </Grid>
-
+                                            <Grid>{ renderMovieTitle() }</Grid>
 
                                         </Grid>
                                     </Grid>

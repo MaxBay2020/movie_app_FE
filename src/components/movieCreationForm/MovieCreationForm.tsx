@@ -8,6 +8,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import { movieFormSchema} from "../../utils/schema";
 import {lazy, memo, useCallback, useRef, useState} from "react";
 import {MAX_IMAGE_SIZE} from "../../utils/helper";
+import KeyboardReturnOutlinedIcon from '@mui/icons-material/KeyboardReturnOutlined';
 
 const AlertDialog = lazy(() => import('../alert/Alert'))
 
@@ -170,6 +171,38 @@ const MovieCreationForm = () => {
         </Box>
     )
 
+    const renderTitleSection = () => (
+        <Grid
+            container
+            sx={{
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+            }}
+            spacing={{
+                xs: 2,
+                md: 5
+            }}
+        >
+            <Grid>
+                <IconButton onClick={() => handleOpenAlertDialog()}>
+                    <KeyboardReturnOutlinedIcon />
+                </IconButton>
+            </Grid>
+            <Grid>
+                <Typography
+                    sx={{
+                        typography: {
+                            xs: 'h4',
+                            md: 'h2'
+                        }
+                    }}
+                >
+                    Create a new movie
+                </Typography>
+            </Grid>
+        </Grid>
+    )
+
 
     return (
         <form onSubmit={handleSubmit(createMovie)}>
@@ -191,18 +224,7 @@ const MovieCreationForm = () => {
                 {
                     !isMediumScreen
                     &&
-                    <Grid>
-                        <Typography
-                            sx={{
-                                typography: {
-                                    xs: 'h3',
-                                    md: 'h2'
-                                }
-                            }}
-                        >
-                            Create a new movie
-                        </Typography>
-                    </Grid>
+                    renderTitleSection()
                 }
 
 
@@ -240,16 +262,7 @@ const MovieCreationForm = () => {
                                     isMediumScreen
                                     &&
                                     <Grid sx={{ mb: { xs: '10px', md: '80px' }, width: '100%' }}>
-                                        <Typography
-                                            sx={{
-                                                typography: {
-                                                    xs: 'h3',
-                                                    md: 'h2'
-                                                }
-                                            }}
-                                        >
-                                            Create a new movie
-                                        </Typography>
+                                        { renderTitleSection() }
                                     </Grid>
                                 }
 

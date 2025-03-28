@@ -20,6 +20,7 @@ const MovieListPage = () => {
                 // height: '100vh'
             }}
         >
+            {/* when no movie in db */}
             {
                 !movieList.length
                 &&
@@ -27,7 +28,8 @@ const MovieListPage = () => {
                     <EmptyMovieList />
                 </Grid>
             }
-            
+
+            {/* movie list */}
             <Grid sx={{ width: '100%' }}>
                 <MovieList
                     movieList={movieList}

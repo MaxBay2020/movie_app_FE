@@ -1,8 +1,14 @@
-import {Container, Grid} from "@mui/material";
+import {Grid} from "@mui/material";
 import EmptyMovieList from "../../../components/moviePLP/emptyMovieList/EmptyMovieList";
-import LoginForm from "../../../components/auth/loginForm/LoginForm";
+import {moviesDummyData} from "../../../data/data";
+import {movieType} from "../../../utils/types";
+import MovieList from "../../../components/moviePLP/movieList/MovieList";
 
 const MovieListPage = () => {
+
+    const movieList: movieType[] = moviesDummyData
+
+
     return (
         <Grid
             container
@@ -11,12 +17,23 @@ const MovieListPage = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 width: '100%',
-                height: '100vh'
+                // height: '100vh'
             }}
         >
-            <Grid>
-                <EmptyMovieList />
+            {
+                !movieList.length
+                &&
+                <Grid>
+                    <EmptyMovieList />
+                </Grid>
+            }
+            
+            <Grid sx={{ width: '100%' }}>
+                <MovieList
+                    movieList={movieList}
+                />
             </Grid>
+
         </Grid>
     );
 };

@@ -37,8 +37,6 @@ const MovieEditionForm = () => {
         setOpenAlertDialog(false)
     }
 
-    console.log(openAlertDialog)
-
 
     const {
         register,

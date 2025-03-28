@@ -4,7 +4,7 @@ import {memo} from "react";
 
 const waveStyle = {
     container: {
-        position: 'absolute',
+        position: 'fixed',
         width: '100%',
         height: '150px',
         bottom: 0,

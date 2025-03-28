@@ -3,19 +3,26 @@ import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import {useDropzone} from 'react-dropzone'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import {useForm} from "react-hook-form";
+import {useForm, Controller} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import { movieFormSchema} from "../../utils/schema";
-import {lazy, memo, useCallback, useRef, useState} from "react";
+import {loginFormSchema, movieFormSchema} from "../../utils/schema";
+import {lazy, memo, useCallback, useEffect, useRef, useState} from "react";
 import {MAX_IMAGE_SIZE} from "../../utils/helper";
+import {useParams} from "react-router-dom";
+import {moviesDummyData} from "../../data/data";
 
 const AlertDialog = lazy(() => import('../alert/Alert'))
 
 
-const MovieCreationForm = () => {
+const MovieEditionForm = () => {
     const theme = useTheme()
     const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'))
     const isNestHubScreen = useMediaQuery("(max-width: 1280px) and (max-height: 600px)")
+
+    const { movieId } = useParams()
+
+    const movie = moviesDummyData.find(movie => movie.id === movieId)
+
 
 
     const [imagePreview, setImagePreview] = useState<null | string>(null)
@@ -29,6 +36,9 @@ const MovieCreationForm = () => {
     const handleCloseAlertDialog = () => {
         setOpenAlertDialog(false)
     }
+
+    console.log(openAlertDialog)
+
 
     const {
         register,
@@ -75,6 +85,14 @@ const MovieCreationForm = () => {
         maxSize: MAX_IMAGE_SIZE,
         multiple: false
     })
+
+    useEffect(() => {
+        setValue('title', movie.title)
+        setValue('publishingYear', movie.publishingYear)
+        setValue('posterImage', movie.imageUrl)
+        setImagePreview(movie.imageUrl)
+    }, [])
+
 
     const createMovie = movieInfo => {
         const movieFormData = new FormData()
@@ -193,6 +211,7 @@ const MovieCreationForm = () => {
                     &&
                     <Grid>
                         <Typography
+                            noWrap
                             sx={{
                                 typography: {
                                     xs: 'h3',
@@ -200,7 +219,17 @@ const MovieCreationForm = () => {
                                 }
                             }}
                         >
-                            Create a new movie
+                            Edit movie
+                            <Typography
+                                variant='bodySmall'
+                                sx={{
+                                    maxWidth: '300px',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                }}
+                            >
+                                - {movie.title}
+                            </Typography>
                         </Typography>
                     </Grid>
                 }
@@ -240,16 +269,43 @@ const MovieCreationForm = () => {
                                     isMediumScreen
                                     &&
                                     <Grid sx={{ mb: { xs: '10px', md: '80px' }, width: '100%' }}>
-                                        <Typography
+                                        <Grid
+                                            container
                                             sx={{
-                                                typography: {
-                                                    xs: 'h3',
-                                                    md: 'h2'
-                                                }
+                                                alignItems: 'baseline',
+                                                justifyContent: 'space-between'
                                             }}
                                         >
-                                            Create a new movie
-                                        </Typography>
+                                            <Grid>
+                                                <Typography
+                                                    sx={{
+                                                        typography: {
+                                                            xs: 'h3',
+                                                            md: 'h2'
+                                                        }
+                                                    }}
+                                                >
+                                                    Edit movie
+                                                </Typography>
+                                            </Grid>
+                                            <Grid >
+                                                <Typography
+                                                    variant='bodySmall'
+                                                    noWrap
+                                                    sx={{
+                                                        display: 'block',
+                                                        maxWidth: '180px',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                        height: '100%'
+                                                    }}
+                                                >
+                                                    &nbsp;- {movie.title}
+                                                </Typography>
+                                            </Grid>
+
+
+                                        </Grid>
                                     </Grid>
                                 }
 
@@ -349,7 +405,6 @@ const MovieCreationForm = () => {
                     </Grid>
                 </Grid>
             </Grid>
-
             <AlertDialog
                 handleCloseAlertDialog={handleCloseAlertDialog}
                 openAlertDialog={openAlertDialog}
@@ -359,4 +414,4 @@ const MovieCreationForm = () => {
     );
 };
 
-export default memo(MovieCreationForm);
+export default memo(MovieEditionForm);

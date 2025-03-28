@@ -1,14 +1,10 @@
 import {Button, styled} from "@mui/material";
 
-const myButtonStyle = ({ theme }) => ({
-    width: '380px',
+const myButtonStyle = ({ theme, style }) => ({
+    width: style?.width || '100%',
     borderRadius: '10px',
-    padding: '15px 126px',
+    padding: '15px 0',
     ...theme.typography.bodyRegular,
-
-    [theme.breakpoints.up('md')]: {
-        width: '300px',
-    },
 })
 
 const MyButton = styled(Button)(myButtonStyle)

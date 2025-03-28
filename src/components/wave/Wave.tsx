@@ -9,7 +9,7 @@ const waveStyle = {
         bottom: 0,
         left: 0,
         overflow: 'hidden',
-        index: -999
+        zIndex: -999
     }
 }
 

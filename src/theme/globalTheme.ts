@@ -104,11 +104,14 @@ const globalTheme = createTheme({
                 '*': {
                     margin: 0,
                     padding: 0,
-                    boxSizing: 'border-box',
+                    boxSizing: 'border-box !important',
                     color: '#fff'
                 },
                 'body': {
                     backgroundColor: theme.palette.bgColor.main,
+                },
+                'a': {
+                    textDecoration: 'none',
                 }
             })
         }

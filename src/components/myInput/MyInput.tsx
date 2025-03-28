@@ -1,7 +1,7 @@
-import {styled, TextField} from "@mui/material";
+import {styled} from "@mui/material";
 
-const myInputStyle = ({ theme }) => ({
-    width: '380px',
+const myInputStyle = ({ theme, style }) => ({
+    width: style?.width || '100%',
     height: '45px',
     borderRadius: '10px',
     padding: '10px', // Adjust the padding for text inside the input
@@ -28,10 +28,6 @@ const myInputStyle = ({ theme }) => ({
 
     '&::placeholder': {
         ...theme.typography.bodySmall
-    },
-
-    [theme.breakpoints.up('md')]: {
-        width: '300px',
     },
 });
 

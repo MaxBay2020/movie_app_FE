@@ -104,6 +104,14 @@ const LoginForm = () => {
                             variant="contained"
                             color='primary'
                             type='submit'
+                            sx={{
+                                width: {
+                                    xs: '300px',
+                                    sm: '380px',
+                                    md: '300px'
+                                },
+                                height: '54px'
+                            }}
                         >
                             Login
                         </MyButton>

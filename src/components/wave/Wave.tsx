@@ -1,5 +1,6 @@
 import {Box} from "@mui/material";
 import { motion } from "motion/react"
+import {memo} from "react";
 
 const waveStyle = {
     container: {
@@ -69,4 +70,4 @@ const Wave = () => {
     );
 };
 
-export default Wave;
+export default memo(Wave);

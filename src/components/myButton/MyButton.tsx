@@ -1,4 +1,5 @@
 import {Button, styled} from "@mui/material";
+import {memo} from "react";
 
 const myButtonStyle = ({ theme, style }) => ({
     width: style?.width || '100%',
@@ -9,4 +10,4 @@ const myButtonStyle = ({ theme, style }) => ({
 
 const MyButton = styled(Button)(myButtonStyle)
 
-export default MyButton;
+export default memo(MyButton);

@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom"
 import Wave from "../components/wave/Wave";
 import {Container, Grid} from "@mui/material";
+import {memo} from "react";
 
 const CommonLayout = () => {
     return (
@@ -14,4 +15,4 @@ const CommonLayout = () => {
     );
 };
 
-export default CommonLayout;
+export default memo(CommonLayout);

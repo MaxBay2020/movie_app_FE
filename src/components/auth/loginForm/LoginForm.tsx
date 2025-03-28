@@ -88,7 +88,7 @@ const LoginForm = () => {
 
 
                     {/* checkbox input */}
-                    <Grid>
+                    <Grid>'64px'
                         <FormGroup>
                             <FormControlLabel 
                                 control={<MyCheckbox {...register('rememberMe')} />}

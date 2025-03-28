@@ -1,4 +1,5 @@
 import {Checkbox, styled} from "@mui/material";
+import {memo} from "react";
 
 const MyCheckboxStyle = ({ theme }) => ({
     '& .css-1umw9bq-MuiSvgIcon-root': {
@@ -14,8 +15,10 @@ const MyLabelStyle = ({ theme }) => ({
     ...theme.typography.bodySmall,
 })
 
-export const MyLabel = styled('span')(MyLabelStyle)
+export const MyLabel = memo(styled('span')(MyLabelStyle))
 
-export const MyCheckbox = styled(Checkbox)(MyCheckboxStyle)
+export const MyCheckbox = memo(styled(Checkbox)(MyCheckboxStyle))
+
+
 
 

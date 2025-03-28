@@ -1,4 +1,4 @@
-import {Box, Grid, IconButton, Typography, useMediaQuery, useTheme} from "@mui/material";
+import {Box, Grid, IconButton, Skeleton, Typography, useMediaQuery, useTheme} from "@mui/material";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import {useDropzone} from 'react-dropzone'
@@ -29,6 +29,7 @@ const MovieEditionForm = () => {
     const [imagePreview, setImagePreview] = useState<null | string>(null)
     const [isHover, setIsHover] = useState<boolean>(false)
     const [openAlertDialog, setOpenAlertDialog] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     const handleOpenAlertDialog = () => {
         setOpenAlertDialog(true)
@@ -37,6 +38,32 @@ const MovieEditionForm = () => {
     const handleCloseAlertDialog = () => {
         setOpenAlertDialog(false)
     }
+
+    const renderDropZoneBoxSkeleton = () => (
+        <Skeleton
+            variant="rectangular"
+            sx={(theme) => ({
+                mb: {
+                    xs: '40px',
+                    md: '0'
+                },
+                width: {
+                    md: '473px'
+                },
+                maxWidth: {
+                    xs: '380px',
+                    md: '473px'
+                },
+                height: {
+                    xs: '300px',
+                    sm: '372px',
+                    md: '504px'
+                },
+                backgroundColor: theme.palette.inputColor.main,
+            })}
+        />
+
+    )
 
 
     const {
@@ -251,7 +278,22 @@ const MovieEditionForm = () => {
                 {
                     !isMediumScreen
                     &&
-                    <Grid>{ renderMovieTitle() }</Grid>
+                    <Grid>
+                        {
+                            isLoading ?
+                                <Skeleton
+                                    variant="rectangular"
+                                    sx={{
+                                        width: '200px',
+                                        height: '48px',
+                                        borderRadius: '10px',
+                                        backgroundColor: theme.palette.inputColor.main,
+                                    }}
+                                />
+                                :
+                                renderMovieTitle()
+                        }
+                    </Grid>
                 }
 
 
@@ -270,7 +312,13 @@ const MovieEditionForm = () => {
                         {
                             !isMediumScreen
                             &&
-                            renderDropZoneBox()
+                            (
+                                isLoading ?
+                                    renderDropZoneBoxSkeleton()
+                                    :
+                                    renderDropZoneBox()
+                            )
+
                         }
 
 
@@ -296,7 +344,22 @@ const MovieEditionForm = () => {
                                                 justifyContent: 'space-between'
                                             }}
                                         >
-                                            <Grid>{ renderMovieTitle() }</Grid>
+                                            <Grid>
+                                                {
+                                                    isLoading ?
+                                                        <Skeleton
+                                                            variant="rectangular"
+                                                            sx={{
+                                                                width: '250px',
+                                                                height: '36px',
+                                                                borderRadius: '10px',
+                                                                backgroundColor: theme.palette.inputColor.main,
+                                                            }}
+                                                        />
+                                                        :
+                                                        renderMovieTitle()
+                                                }
+                                            </Grid>
 
                                         </Grid>
                                     </Grid>
@@ -304,12 +367,25 @@ const MovieEditionForm = () => {
 
                                 {/* title */}
                                 <Grid sx={{ mb: '24px', width: '100%' }}>
-                                    <MyInput
-                                        type='text'
-                                        placeholder='Title'
-                                        {...register('title')}
-                                        className={errors.title && 'error'}
-                                    />
+                                    {
+                                        isLoading ?
+                                            <Skeleton
+                                                variant="rectangular"
+                                                sx={(theme) => ({
+                                                    width: '100%',
+                                                    height: '45px',
+                                                    borderRadius: '10px',
+                                                    backgroundColor: theme.palette.inputColor.main,
+                                                })}
+                                            />
+                                            :
+                                            <MyInput
+                                                type='text'
+                                                placeholder='Title'
+                                                {...register('title')}
+                                                className={errors.title && 'error'}
+                                            />
+                                    }
                                     <Box>
                                         {
                                             errors.title
@@ -321,12 +397,26 @@ const MovieEditionForm = () => {
 
                                 {/* publishing year */}
                                 <Grid sx={{ mb: { xs: '24px', md: '64px'}, width: '100%'  }}>
-                                    <MyInput
-                                        type='number'
-                                        placeholder='Publishing year'
-                                        {...register('publishingYear')}
-                                        className={errors.publishingYear && 'error'}
-                                    />
+                                    {
+                                        isLoading ?
+                                            <Skeleton
+                                                variant="rectangular"
+                                                sx={(theme) => ({
+                                                    width: '100%',
+                                                    height: '45px',
+                                                    borderRadius: '10px',
+                                                    backgroundColor: theme.palette.inputColor.main,
+                                                })}
+                                            />
+                                            :
+                                            <MyInput
+                                                type='number'
+                                                placeholder='Publishing year'
+                                                {...register('publishingYear')}
+                                                className={errors.publishingYear && 'error'}
+                                            />
+                                    }
+
                                     <Box>
                                         {
                                             errors.publishingYear
@@ -339,7 +429,12 @@ const MovieEditionForm = () => {
                                 {
                                     isMediumScreen
                                     &&
-                                    renderDropZoneBox()
+                                    (
+                                        isLoading ?
+                                            renderDropZoneBoxSkeleton()
+                                            :
+                                            renderDropZoneBox()
+                                    )
                                 }
 
 
@@ -353,43 +448,89 @@ const MovieEditionForm = () => {
                                     spacing={2}
                                 >
                                     <Grid size={{ xs: 12, sm: 6 }}>
-                                        <MyButton
-                                            variant='outlined'
-                                            sx={{
-                                                width: {
-                                                    xs: '100%',
-                                                    sm: '182px',
-                                                    md: '167px'
-                                                },
-                                                height: {
-                                                    xs: '48px',
-                                                    sm: '56px'
-                                                },
-                                            }}
-                                            onClick={() => handleOpenAlertDialog()}
-                                        >
-                                            Cancel
-                                        </MyButton>
+                                        {
+                                            isLoading ?
+                                                <Skeleton
+                                                    variant="rectangular"
+                                                    sx={{
+                                                        width: {
+                                                            xs: '100%',
+                                                            sm: '182px',
+                                                            md: '167px'
+                                                        },
+                                                        height: {
+                                                            xs: '48px',
+                                                            sm: '56px'
+                                                        },
+                                                        borderRadius: '10px',
+
+                                                        backgroundColor: theme.palette.inputColor.main,
+                                                    }}
+                                                />
+                                                :
+                                                <MyButton
+                                                    variant='outlined'
+                                                    sx={{
+                                                        width: {
+                                                            xs: '100%',
+                                                            sm: '182px',
+                                                            md: '167px'
+                                                        },
+                                                        height: {
+                                                            xs: '48px',
+                                                            sm: '56px'
+                                                        },
+                                                    }}
+                                                    onClick={() => handleOpenAlertDialog()}
+                                                >
+                                                    Cancel
+                                                </MyButton>
+                                        }
+
                                     </Grid>
 
                                     <Grid size={{ xs: 12, sm: 6 }}>
-                                        <MyButton
-                                            variant='contained'
-                                            type='submit'
-                                            sx={{
-                                                width: {
-                                                    xs: '100%',
-                                                    sm: '182px',
-                                                    md: '167px'
-                                                },
-                                                height: {
-                                                    xs: '48px',
-                                                    sm: '56px'
-                                                },
-                                            }}
-                                        >
-                                            Submit
-                                        </MyButton>
+                                        {
+                                            isLoading ?
+                                                <Skeleton
+                                                    variant="rectangular"
+                                                    sx={{
+                                                        width: {
+                                                            xs: '100%',
+                                                            sm: '182px',
+                                                            md: '167px'
+                                                        },
+                                                        height: {
+                                                            xs: '48px',
+                                                            sm: '56px'
+                                                        },
+                                                        borderRadius: '10px',
+
+                                                        backgroundColor: theme.palette.inputColor.main,
+
+                                                    }}
+                                                />
+                                                :
+                                                <MyButton
+                                                    variant='contained'
+                                                    type='submit'
+                                                    sx={{
+                                                        width: {
+                                                            xs: '100%',
+                                                            sm: '182px',
+                                                            md: '167px'
+                                                        },
+                                                        height: {
+                                                            xs: '48px',
+                                                            sm: '56px'
+                                                        },
+
+                                                    }}
+                                                >
+                                                    Submit
+                                                </MyButton>
+                                        }
+
                                     </Grid>
 
                                 </Grid>

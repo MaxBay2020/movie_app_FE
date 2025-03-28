@@ -4,6 +4,7 @@ import AuthPage from "./pages/authPage/AuthPage";
 import CommonLayout from "./layouts/CommonLayout";
 import MovieCreationPage from "./pages/movieRelatedPages/movieCreationPage/MovieCreationPage";
 import MovieEditionPage from "./pages/movieRelatedPages/movieEditionPage/MovieEditionPage";
+import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
             <Route path='movies/edit/:movieId' element={<MovieEditionPage />} />
             <Route path='login' element={<AuthPage />} />
 
-            <Route path='*' element={<div>123</div>} />
+            <Route path='*' element={<NotFoundPage />} />
         </Route>
     </Routes>
   )

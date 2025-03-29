@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 import MovieCard from "../../movieCard/MovieCard";
 import MyPagination from "../../pagination/Pagination";
 import {useState} from "react";
+import {useTranslation} from "react-i18next";
 
 type MovieListPropsType = {
     movieList: movieType[]
@@ -13,9 +14,10 @@ type MovieListPropsType = {
 
 const MovieList = ({movieList}: MovieListPropsType) => {
 
+    const  { t } = useTranslation()
     const [page, setPage] = useState<number>(1)
 
-    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
 
     const logoutUser = () => {
@@ -115,7 +117,7 @@ const MovieList = ({movieList}: MovieListPropsType) => {
                                     }
                                 }}
                             >
-                                My movies
+                                {t('moviesPLP.myMovies')}
                                 <Link to='create'>
                                     <IconButton>
                                         <AddCircleOutlineOutlinedIcon />
@@ -132,7 +134,7 @@ const MovieList = ({movieList}: MovieListPropsType) => {
                                 },
                                 cursor: 'pointer'
                             }}>
-                                Logout
+                                {t('actions.logout')}
                             </Typography>
                             <IconButton>
                                 <LogoutOutlinedIcon />

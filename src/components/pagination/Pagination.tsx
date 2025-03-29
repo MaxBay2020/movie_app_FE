@@ -1,4 +1,5 @@
 import {Pagination, PaginationItem, Typography} from "@mui/material";
+import {useTranslation} from "react-i18next";
 
 type MyPaginationPropsType = {
     count: number,
@@ -7,6 +8,8 @@ type MyPaginationPropsType = {
 }
 
 const MyPagination = ({ count, page, onChange }: MyPaginationPropsType) => {
+    const { t } = useTranslation()
+
     return (
         <Pagination
             count={count}
@@ -38,8 +41,8 @@ const MyPagination = ({ count, page, onChange }: MyPaginationPropsType) => {
                     }}
 
                     slots={{
-                        previous: () => <Typography variant='bodyRegular'>Prev</Typography>,
-                        next: () => <Typography variant='bodyRegular'>Next</Typography>,
+                        previous: () => <Typography variant='bodyRegular'>{t('actions.prev')}</Typography>,
+                        next: () => <Typography variant='bodyRegular'>{t('actions.next')}</Typography>,
                     }}
                 />
             )}

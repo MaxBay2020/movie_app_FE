@@ -1,0 +1,59 @@
+{
+  "header": {
+    "myMovieGallery": "My Movie Gallery",
+    "language": "Language"
+
+  },
+  "loginPage": {
+    "signIn": "Sign in",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember me"
+  },
+  "moviesPLP": {
+    "myMovies": "My Movies"
+  },
+  "actions": {
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "discard": "Discard",
+    "prev": "Prev",
+    "next": "next"
+  },
+  "moviesCreationPage": {
+    "createANewMovie": "Create a new movie",
+    "dropAnImageHere1": "Drop an image here",
+    "dropAnImageHere2": "Drag and drop image here, or click to select",
+    "title": "Title",
+    "publishingYear": "Publishing year"
+  },
+  "moviesEditionPage": {
+    "editMovie": "Edit movie"
+  },
+  "alert": {
+    "title": "You will discard changes, do you want to continue?",
+    "description": "Your changes will be discarded."
+  },
+  "errorMessage": {
+    "email": {
+      "empty": "Please enter your email",
+      "invalid": "Email not valid"
+    },
+    "password": {
+      "empty": "Please enter your password"
+    },
+    "movieTitle": {
+      "empty": "Please enter a title"
+    },
+    "moviePublishingYear": {
+      "empty": "Please enter a publishing year",
+      "badYear": "Year must be between 1900 and {{maxYear}}"
+    },
+    "movieImage": {
+      "tooLarge": "The maximum of the image file is {{fileSize}}"
+    }
+  }
+}

@@ -7,6 +7,7 @@ import MyButton from "../myButton/MyButton";
 import {memo} from "react";
 import {useTheme} from "@mui/material";
 import {Link} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 type AlertPropsType = {
     handleCloseAlertDialog: () => void,
@@ -15,6 +16,8 @@ type AlertPropsType = {
 
 const AlertDialog = ({handleCloseAlertDialog, openAlertDialog}: AlertPropsType) => {
     const theme = useTheme()
+    const { t } = useTranslation()
+
     return (
         <Dialog
             open={openAlertDialog}
@@ -30,20 +33,22 @@ const AlertDialog = ({handleCloseAlertDialog, openAlertDialog}: AlertPropsType) 
             }}
         >
             <DialogTitle id="alert-dialog-title">
-                You will discard changes, do you want to continue?
+                {t('alert.title')}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description" color='#fff'>
-                    Your changes will be discarded.
+                    {t('alert.description')}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Link to='/movies'>
                     <MyButton onClick={handleCloseAlertDialog} variant='outlined' color='#fff' sx={{ width: '120px', height: '46px', mr: '10px' }}>
-                        Discard
+                        {t('actions.discard')}
                     </MyButton>
                 </Link>
-                <MyButton onClick={handleCloseAlertDialog} variant='contained' color='primary' sx={{ width: '120px', height: '46px' }}>Cancel</MyButton>
+                <MyButton onClick={handleCloseAlertDialog} variant='contained' color='primary' sx={{ width: '120px', height: '46px' }}>
+                    {t('actions.cancel')}
+                </MyButton>
             </DialogActions>
         </Dialog>
     );

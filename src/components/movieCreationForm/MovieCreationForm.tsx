@@ -7,8 +7,9 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import { movieFormSchema} from "../../utils/schema";
 import {lazy, memo, useCallback, useRef, useState} from "react";
-import {MAX_IMAGE_SIZE} from "../../utils/helper";
+import {formatFileSize, MAX_IMAGE_SIZE} from "../../utils/helper";
 import KeyboardReturnOutlinedIcon from '@mui/icons-material/KeyboardReturnOutlined';
+import {useTranslation} from "react-i18next";
 
 const AlertDialog = lazy(() => import('../alert/Alert'))
 
@@ -18,6 +19,7 @@ const MovieCreationForm = () => {
     const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'))
     const isNestHubScreen = useMediaQuery("(max-width: 1280px) and (max-height: 600px)")
 
+    const { t } = useTranslation()
 
     const [imagePreview, setImagePreview] = useState<null | string>(null)
     const [isHover, setIsHover] = useState<boolean>(false)
@@ -58,7 +60,7 @@ const MovieCreationForm = () => {
             if(errorMessage === 'file-too-large'){
 
                 setError('posterImage', {
-                    message: 'The maximum of the image file is 10MB'
+                    message: 'errorMessage.movieImage.tooLarge'
                 })
             }
         },
@@ -123,6 +125,7 @@ const MovieCreationForm = () => {
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
+                cursor: 'pointer'
 
             })}
             onMouseEnter={() => setIsHover(true)}
@@ -151,9 +154,31 @@ const MovieCreationForm = () => {
                     <Grid>
                         {
                             isDragActive ?
-                                <Typography variant='bodySmall'>Drag and drop image here, or click to select</Typography>
+                                <Typography
+                                    sx={{
+                                        px: '10px',
+                                        textAlign: 'center',
+                                        typography: {
+                                            xs: 'bodyExtraSmall',
+                                            ms: 'bodySmall'
+                                        }
+                                    }}
+                                >
+                                    {t('moviesCreationPage.dropAnImageHere1')}
+                                </Typography>
                                 :
-                                <Typography variant='bodySmall'>Drop an image here</Typography>
+                                <Typography
+                                    sx={{
+                                        px: '10px',
+                                        textAlign: 'center',
+                                        typography: {
+                                            xs: 'bodyExtraSmall',
+                                            ms: 'bodySmall'
+                                        }
+                                    }}
+                                >
+                                    {t('moviesCreationPage.dropAnImageHere2')}
+                                </Typography>
 
                         }
                     </Grid>
@@ -162,7 +187,9 @@ const MovieCreationForm = () => {
                         {
                             errors?.posterImage
                             &&
-                            <Typography variant='bodyExtraSmall' color='error'>{errors.posterImage.message}</Typography>
+                            <Typography variant='bodyExtraSmall' color='error'>
+                                {t(errors.posterImage.message, { fileSize: formatFileSize(MAX_IMAGE_SIZE) })}
+                            </Typography>
                         }
                     </Grid>
                 </Grid>
@@ -197,7 +224,7 @@ const MovieCreationForm = () => {
                         }
                     }}
                 >
-                    Create a new movie
+                    {t('moviesCreationPage.createANewMovie')}
                 </Typography>
             </Grid>
         </Grid>
@@ -270,7 +297,7 @@ const MovieCreationForm = () => {
                                 <Grid sx={{ mb: '24px', width: '100%' }}>
                                     <MyInput
                                         type='text'
-                                        placeholder='Title'
+                                        placeholder={t('moviesCreationPage.title')}
                                         {...register('title')}
                                         className={errors.title && 'error'}
                                     />
@@ -278,7 +305,7 @@ const MovieCreationForm = () => {
                                         {
                                             errors.title
                                             &&
-                                            <Typography variant='bodyExtraSmall' color='error'>{errors.title.message}</Typography>
+                                            <Typography variant='bodyExtraSmall' color='error'>{t(errors.title.message)}</Typography>
                                         }
                                     </Box>
                                 </Grid>
@@ -287,7 +314,7 @@ const MovieCreationForm = () => {
                                 <Grid sx={{ mb: { xs: '24px', md: '64px'}, width: '100%'  }}>
                                     <MyInput
                                         type='number'
-                                        placeholder='Publishing year'
+                                        placeholder={t('moviesCreationPage.publishingYear')}
                                         {...register('publishingYear')}
                                         className={errors.publishingYear && 'error'}
                                     />
@@ -295,7 +322,9 @@ const MovieCreationForm = () => {
                                         {
                                             errors.publishingYear
                                             &&
-                                            <Typography variant='bodyExtraSmall' color='error'>{errors.publishingYear.message}</Typography>
+                                            <Typography variant='bodyExtraSmall' color='error'>
+                                                {t(errors.publishingYear.message, { maxYear: new Date().getFullYear() })}
+                                            </Typography>
                                         }
                                     </Box>
                                 </Grid>
@@ -332,7 +361,7 @@ const MovieCreationForm = () => {
                                             }}
                                             onClick={() => handleOpenAlertDialog()}
                                         >
-                                            Cancel
+                                            {t('actions.cancel')}
                                         </MyButton>
                                     </Grid>
 
@@ -352,7 +381,7 @@ const MovieCreationForm = () => {
                                                 },
                                             }}
                                         >
-                                            Submit
+                                            {t('actions.submit')}
                                         </MyButton>
                                     </Grid>
 

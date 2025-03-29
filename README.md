@@ -56,12 +56,15 @@ export default tseslint.config({
 
 FEATURES:
 1. Strictly following Figma design, totally `responsive` for all screen sizes.
-2. Form validation.
+2. Form validation including image size limitation.
 3. Movie list pagination.
 4. State management.
 5. l10n
 BONUS:
 5. Global theme configured for long-term maintenance such as `Palette`, `Typography`, etc. 
 6. UI refined with `Friendly Alert`,  `Animations`, `file Drag n Drop`, `Back Button`, `Loading Skeleton`, etc.
-7. Performance optimized such as `Hooks usage`, `Dynamic import`, etc.
+7. Performance optimized such as `Performace hooks usage`, `Dynamic import`, `memo()`,etc.
 8. `Not Found Page` added for better UX.
+
+FUTURE:
+1. Optimize CLS

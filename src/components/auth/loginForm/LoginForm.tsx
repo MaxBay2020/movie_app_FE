@@ -6,8 +6,11 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {loginFormSchema} from "../../../utils/schema";
 import {Link} from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 const LoginForm = () => {
+
+    const { t } = useTranslation()
 
     const {
         register,
@@ -49,14 +52,14 @@ const LoginForm = () => {
                                 }
                             }}
                         >
-                            Sign in
+                            {t('loginPage.signIn')}
                         </Typography>
                     </Grid>
                     {/* email input */}
                     <Grid sx={{ width: '100%' }}>
                         <MyInput
                             type="text"
-                            placeholder="Email"
+                            placeholder={t('loginPage.email')}
                             {...register('email')}
                             className={errors.email && 'error'}
                         />
@@ -73,7 +76,7 @@ const LoginForm = () => {
                     <Grid sx={{ width: '100%' }}>
                         <MyInput
                             type="password"
-                            placeholder="Password"
+                            placeholder={t('loginPage.password')}
                             {...register('password')}
                             className={errors.password && 'error'}
                         />
@@ -92,7 +95,7 @@ const LoginForm = () => {
                         <FormGroup>
                             <FormControlLabel 
                                 control={<MyCheckbox {...register('rememberMe')} />}
-                                label={<MyLabel>Remember me</MyLabel>}
+                                label={<MyLabel>{t('loginPage.rememberMe')}</MyLabel>}
                             />
                         </FormGroup>
                     </Grid>
@@ -105,22 +108,18 @@ const LoginForm = () => {
                             color='primary'
                             type='submit'
                             sx={{
-                                width: {
-                                    xs: '300px',
-                                    sm: '380px',
-                                    md: '300px'
-                                },
+                                width: '100%',
                                 height: '54px'
                             }}
                         >
-                            Login
+                            {t('actions.login')}
                         </MyButton>
                     </Grid>
 
                     {/* register */}
                     <Grid>
                         <Typography variant='bodySmall'>
-                            <Link to='/register'>Register</Link>
+                            <Link to='/register'>{t('actions.register')}</Link>
                         </Typography>
                     </Grid>
                 </Grid>

@@ -9,6 +9,7 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import globalTheme from "./theme/globalTheme";
+import './i18n';
 
 const queryClient = new QueryClient()
 

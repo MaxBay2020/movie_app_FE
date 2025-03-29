@@ -1,0 +1,58 @@
+{
+  "header": {
+    "myMovieGallery": "Ma Galerie de Films",
+    "language": "Langue"
+  },
+  "loginPage": {
+    "signIn": "Se connecter",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "rememberMe": "Se souvenir de moi"
+  },
+  "moviesPLP": {
+    "myMovies": "Mes Films"
+  },
+  "actions": {
+    "login": "Connexion",
+    "register": "S'inscrire",
+    "logout": "Déconnexion",
+    "cancel": "Annuler",
+    "submit": "Soumettre",
+    "discard": "Ignorer",
+    "prev": "Préc.",
+    "next": "Suiv."
+  },
+  "moviesCreationPage": {
+    "createANewMovie": "Créer un nouveau film",
+    "dropAnImageHere1": "Déposez une image ici",
+    "dropAnImageHere2": "Glissez et déposez une image ici, ou cliquez pour sélectionner",
+    "title": "Titre",
+    "publishingYear": "Année de publication"
+  },
+  "moviesEditionPage": {
+    "editMovie": "Modifier le film"
+  },
+  "alert": {
+    "title": "Vous allez ignorer les modifications, voulez-vous continuer ?",
+    "description": "Vos modifications seront ignorées."
+  },
+  "errorMessage": {
+    "email": {
+      "empty": "Veuillez entrer votre email",
+      "invalid": "Email non valide"
+    },
+    "password": {
+      "empty": "Veuillez entrer votre mot de passe"
+    },
+    "movieTitle": {
+      "empty": "Veuillez entrer un titre"
+    },
+    "moviePublishingYear": {
+      "empty": "Veuillez entrer un nombre valide pour l'année",
+      "badYear": "L'année doit être comprise entre 1900 et {{maxYear}}"
+    },
+    "movieImage": {
+      "tooLarge": "La taille maximale du fichier image est de {{fileSize}}"
+    }
+  }
+}

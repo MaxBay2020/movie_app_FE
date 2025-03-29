@@ -60,11 +60,12 @@ FEATURES:
 3. Movie list pagination.
 4. State management.
 5. l10n
+
 BONUS:
 5. Global theme configured for long-term maintenance such as `Palette`, `Typography`, etc. 
 6. UI refined with `Friendly Alert`,  `Animations`, `file Drag n Drop`, `Back Button`, `Loading Skeleton`, etc.
-7. Performance optimized such as `Performace hooks usage`, `Dynamic import`, `memo()`,etc.
+7. Performance optimized such as `Performace hooks usage`, `Dynamic import`, `memo()`, `Cache data`,etc.
 8. `Not Found Page` added for better UX.
 
 FUTURE:
-1. Optimize CLS
+

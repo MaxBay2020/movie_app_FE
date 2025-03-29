@@ -1,16 +1,50 @@
-import {Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, TextField, Typography} from "@mui/material";
+import {Box, CircularProgress, FormControlLabel, FormGroup, Grid, Typography} from "@mui/material";
 import MyInput from "../../myInput/MyInput";
 import MyButton from "../../myButton/MyButton";
 import {MyCheckbox, MyLabel} from "../../myCheckbox/MyCheckbox";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {loginFormSchema} from "../../../utils/schema";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import useLogin from "../../../customHooks/useLogin";
+
+import {Slide, toast} from "react-toastify";
+import {Message} from "../../../utils/helper";
 
 const LoginForm = () => {
 
     const { t } = useTranslation()
+
+    const navigate = useNavigate()
+
+    const onLoginSuccess = (e) => {
+        navigate('/movies')
+    }
+
+    const onLoginError = (res) => {
+
+        const translate = Message[res.response.data.message]
+
+        toast.error(t(translate), {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Slide,
+        })
+    }
+
+
+
+    const { mutate: loginUser, isPending } = useLogin({
+        onSuccess: onLoginSuccess,
+        onError: onLoginError,
+    })
 
     const {
         register,
@@ -21,9 +55,12 @@ const LoginForm = () => {
     })
 
 
-    const loginUser = userInfo => {
-        console.log(userInfo)
+
+    const handleLoginUser = userInfo => {
+        const { email, password } = userInfo
+        loginUser({ email, password })
     }
+    console.log(isPending)
 
     return (
         <Box
@@ -33,7 +70,7 @@ const LoginForm = () => {
         >
 
             {/* Form */}
-            <form onSubmit={handleSubmit(loginUser)} style={{height: '100%'}}>
+            <form onSubmit={handleSubmit(handleLoginUser)} style={{height: '100%'}}>
                 <Grid
                     container
                     direction='column'
@@ -58,16 +95,21 @@ const LoginForm = () => {
                     {/* email input */}
                     <Grid sx={{ width: '100%' }}>
                         <MyInput
+                            disabled={isPending}
                             type="text"
                             placeholder={t('loginPage.email')}
                             {...register('email')}
                             className={errors.email && 'error'}
+                            sx={(theme) => ({
+                                backgroundColor:  isPending && theme.palette.bgColor.dark,
+                                color: isPending && theme.palette.bgColor.light,
+                            })}
                         />
                         <Box>
                             {
                                 errors.email
                                 &&
-                                <Typography variant='bodyExtraSmall' color='error'>{errors.email.message}</Typography>
+                                <Typography variant='bodyExtraSmall' color='error'>{t(errors.email.message)}</Typography>
                             }
                         </Box>
                     </Grid>
@@ -75,51 +117,67 @@ const LoginForm = () => {
                     {/* password input */}
                     <Grid sx={{ width: '100%' }}>
                         <MyInput
+                            disabled={isPending}
                             type="password"
                             placeholder={t('loginPage.password')}
                             {...register('password')}
                             className={errors.password && 'error'}
+                            sx={(theme) => ({
+                                backgroundColor:  isPending && theme.palette.bgColor.dark,
+                                color: isPending && theme.palette.bgColor.light,
+                            })}
                         />
                         <Box>
                             {
                                 errors.password
                                 &&
-                                <Typography variant='bodyExtraSmall' color='error'>{errors.password.message}</Typography>
+                                <Typography variant='bodyExtraSmall' color='error'>{t(errors.password.message)}</Typography>
                             }
                         </Box>
                     </Grid>
 
 
                     {/* checkbox input */}
-                    <Grid>
-                        <FormGroup>
-                            <FormControlLabel 
-                                control={<MyCheckbox {...register('rememberMe')} />}
-                                label={<MyLabel>{t('loginPage.rememberMe')}</MyLabel>}
-                            />
-                        </FormGroup>
-                    </Grid>
+                    {/*<Grid>*/}
+                    {/*    <FormGroup>*/}
+                    {/*        <FormControlLabel */}
+                    {/*            control={<MyCheckbox {...register('rememberMe')} />}*/}
+                    {/*            label={<MyLabel>{t('loginPage.rememberMe')}</MyLabel>}*/}
+                    {/*        />*/}
+                    {/*    </FormGroup>*/}
+                    {/*</Grid>*/}
 
 
                     {/* button */}
                     <Grid sx={{ width: '100%' }}>
                         <MyButton
+                            disabled={isPending}
                             variant="contained"
                             color='primary'
                             type='submit'
-                            sx={{
+                            sx={(theme) => ({
                                 width: '100%',
-                                height: '54px'
-                            }}
+                                height: '54px',
+                                cursor: isPending ? 'not-allowed' : 'pointer',
+                                "&.Mui-disabled": {
+                                    backgroundColor: isPending && theme.palette.primary.dark,
+                                }
+                            })}
                         >
-                            {t('actions.login')}
+                            {
+                                isPending ?
+                                    <CircularProgress />
+                                    :
+                                    t('actions.login')
+                            }
+
                         </MyButton>
                     </Grid>
 
                     {/* register */}
                     <Grid>
                         <Typography variant='bodySmall'>
-                            <Link to='/register'>{t('actions.register')}</Link>
+                            <Link to={isPending ? '#' : '/register'}>{t('actions.register')}</Link>
                         </Typography>
                     </Grid>
                 </Grid>

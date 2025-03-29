@@ -10,6 +10,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import globalTheme from "./theme/globalTheme";
 import './i18n';
+import {ToastContainer} from "react-toastify";
 
 const queryClient = new QueryClient()
 
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')!).render(
               <CssBaseline />
               <Router>
                   <App />
+                  <ToastContainer />
               </Router>
           </ThemeProvider>
 

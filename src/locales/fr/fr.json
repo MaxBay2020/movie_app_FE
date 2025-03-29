@@ -10,6 +10,7 @@
     "rememberMe": "Se souvenir de moi"
   },
   "moviesPLP": {
+    "emptyMessage": "Votre liste de films est vide",
     "myMovies": "Mes Films"
   },
   "actions": {
@@ -20,7 +21,8 @@
     "submit": "Soumettre",
     "discard": "Ignorer",
     "prev": "Préc.",
-    "next": "Suiv."
+    "next": "Suiv.",
+    "addNewMovie": "Ajouter un nouveau film"
   },
   "moviesCreationPage": {
     "createANewMovie": "Créer un nouveau film",

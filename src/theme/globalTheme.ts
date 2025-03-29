@@ -3,19 +3,25 @@ import {createTheme} from "@mui/material/styles";
 const globalTheme = createTheme({
     palette: {
         primary: {
-            main: '#2BD17E'
+            main: '#2BD17E',
+            dark: '#198650',
         },
         error: {
             main: '#EB5757'
         },
         bgColor: {
-            main: '#093545'
+            main: '#093545',
+            dark: '#05242f',
+            light: '#156784',
         },
         inputColor: {
             main: '#224957',
         },
         cardColor: {
             main: '#092C39'
+        },
+        grey: {
+            main: 'rgba(194,194,194,0.24)'
         }
     },
     typography: {

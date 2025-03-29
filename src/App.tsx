@@ -1,4 +1,5 @@
 import {Routes, Route, Navigate} from 'react-router-dom'
+import {ToastContainer} from 'react-toastify'
 import MovieListPage from "./pages/movieRelatedPages/movieListPage/MovieListPage";
 import AuthPage from "./pages/authPage/AuthPage";
 import CommonLayout from "./layouts/CommonLayout";
@@ -11,7 +12,7 @@ function App() {
   return (
     <Routes>
         <Route path='/' element={<CommonLayout />}>
-            <Route index element={<Navigate to='/login' />} />
+            <Route index element={<Navigate to='/movies' />} />
             <Route path='movies' element={<MovieListPage />} />
             <Route path='movies/create' element={<MovieCreationPage />} />
             <Route path='movies/edit/:movieId' element={<MovieEditionPage />} />

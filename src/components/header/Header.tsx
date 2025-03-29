@@ -18,7 +18,7 @@ const Header = () => {
 
 
     return (
-        <Box sx={{ flexGrow: 1}}>
+        <Box sx={{ flexGrow: 1, }}>
             <AppBar position="static" sx={(theme) => ({ backgroundColor: theme.palette.cardColor.main })}>
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -27,7 +27,7 @@ const Header = () => {
                         </Link>
                     </Typography>
 
-                    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                    <FormControl sx={{ m: 1, minWidth: 120, mt: '15px' }} size="small">
                         <InputLabel id="demo-select-small-label">{t('header.language')}</InputLabel>
                         <Select
                             labelId="demo-select-small-label"

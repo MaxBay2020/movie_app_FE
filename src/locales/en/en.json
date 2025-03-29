@@ -11,6 +11,7 @@
     "rememberMe": "Remember me"
   },
   "moviesPLP": {
+    "emptyMessage": "Your movie list is empty",
     "myMovies": "My Movies"
   },
   "actions": {
@@ -21,7 +22,8 @@
     "submit": "Submit",
     "discard": "Discard",
     "prev": "Prev",
-    "next": "next"
+    "next": "next",
+    "addNewMovie": "Add a new movie"
   },
   "moviesCreationPage": {
     "createANewMovie": "Create a new movie",
@@ -55,5 +57,16 @@
     "movieImage": {
       "tooLarge": "The maximum of the image file is {{fileSize}}"
     }
+  },
+
+  "response": {
+    "errorFind": "Cannot find record in the database",
+    "errorCreate": "Cannot create record in the database",
+    "errorParams": "Necessary params NOT provided or invalid data",
+    "errorAuth": "You are not authenticated",
+    "errorAuthorized": "You are not authorized",
+    "errorEmailOrPasswordNotCorrect": "Email or password NOT correct",
+    "errorEmailExist": "Email has already been registered",
+    "errorServer": "There is something wrong with server, please try again later"
   }
 }

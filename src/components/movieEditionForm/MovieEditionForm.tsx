@@ -7,11 +7,13 @@ import {useForm, Controller} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {loginFormSchema, movieFormSchema} from "../../utils/schema";
 import {lazy, memo, useCallback, useEffect, useRef, useState} from "react";
-import {formatFileSize, MAX_IMAGE_SIZE} from "../../utils/helper";
+import {formatFileSize, MAX_IMAGE_SIZE, Message} from "../../utils/helper";
 import {useParams} from "react-router-dom";
 import {moviesDummyData} from "../../data/data";
 import KeyboardReturnOutlinedIcon from '@mui/icons-material/KeyboardReturnOutlined';
 import {useTranslation} from "react-i18next";
+import useQueryMovieByMovieId from "../../customHooks/useQueryMovieByMovieId";
+import {Slide, toast} from "react-toastify";
 
 const AlertDialog = lazy(() => import('../alert/Alert'))
 
@@ -22,17 +24,43 @@ const MovieEditionForm = () => {
     const isNestHubScreen = useMediaQuery("(max-width: 1280px) and (max-height: 600px)")
 
     const { movieId } = useParams()
+    const { t } = useTranslation()
 
-    const movie = moviesDummyData.find(movie => movie.id === movieId)
 
+    const onError = res => {
+        const translate = Message[res.response?.data?.message]
+        if(toast.isActive(t(translate))){
+            return
+        }
+        toast.error(t(translate), {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Slide,
+            toastId: t(translate)
+        })
+    }
+
+    const { data, isSuccess } = useQueryMovieByMovieId({
+        queryKey: ['queryMovieByMovieId', movieId],
+        movieId,
+        onError
+    })
+
+    const movie = data?.data?.movie
 
 
     const [imagePreview, setImagePreview] = useState<null | string>(null)
     const [isHover, setIsHover] = useState<boolean>(false)
     const [openAlertDialog, setOpenAlertDialog] = useState<boolean>(false)
-    const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    const { t } = useTranslation()
+
+
 
     const handleOpenAlertDialog = () => {
         setOpenAlertDialog(true)
@@ -116,11 +144,14 @@ const MovieEditionForm = () => {
     })
 
     useEffect(() => {
-        setValue('title', movie.title)
-        setValue('publishingYear', movie.publishingYear)
-        setValue('posterImage', movie.imageUrl)
-        setImagePreview(movie.imageUrl)
-    }, [])
+        if(isSuccess){
+            setValue('title', movie?.title)
+            setValue('publishingYear', movie?.publishingYear)
+            setValue('posterImage', movie?.imageUrl)
+            setImagePreview(movie?.imageUrl)
+        }
+
+    }, [isSuccess])
 
 
     const createMovie = movieInfo => {
@@ -278,7 +309,7 @@ const MovieEditionForm = () => {
                             textOverflow: 'ellipsis',
                         }}
                     >
-                        - {movie.title}
+                        - {movie?.title}
                     </Typography>
                 </Typography>
             </Grid>
@@ -308,7 +339,7 @@ const MovieEditionForm = () => {
                     &&
                     <Grid>
                         {
-                            isLoading ?
+                            !isSuccess ?
                                 <Skeleton
                                     variant="rectangular"
                                     sx={{
@@ -341,7 +372,7 @@ const MovieEditionForm = () => {
                             !isMediumScreen
                             &&
                             (
-                                isLoading ?
+                                !isSuccess ?
                                     renderDropZoneBoxSkeleton()
                                     :
                                     renderDropZoneBox()
@@ -374,7 +405,7 @@ const MovieEditionForm = () => {
                                         >
                                             <Grid>
                                                 {
-                                                    isLoading ?
+                                                    !isSuccess ?
                                                         <Skeleton
                                                             variant="rectangular"
                                                             sx={{
@@ -396,7 +427,7 @@ const MovieEditionForm = () => {
                                 {/* title */}
                                 <Grid sx={{ mb: '24px', width: '100%' }}>
                                     {
-                                        isLoading ?
+                                        !isSuccess ?
                                             <Skeleton
                                                 variant="rectangular"
                                                 sx={(theme) => ({
@@ -428,7 +459,7 @@ const MovieEditionForm = () => {
                                 {/* publishing year */}
                                 <Grid sx={{ mb: { xs: '24px', md: '64px'}, width: '100%'  }}>
                                     {
-                                        isLoading ?
+                                        !isSuccess ?
                                             <Skeleton
                                                 variant="rectangular"
                                                 sx={(theme) => ({
@@ -462,7 +493,7 @@ const MovieEditionForm = () => {
                                     isMediumScreen
                                     &&
                                     (
-                                        isLoading ?
+                                        !isSuccess ?
                                             renderDropZoneBoxSkeleton()
                                             :
                                             renderDropZoneBox()
@@ -481,7 +512,7 @@ const MovieEditionForm = () => {
                                 >
                                     <Grid size={{ xs: 12, sm: 6 }}>
                                         {
-                                            isLoading ?
+                                            !isSuccess ?
                                                 <Skeleton
                                                     variant="rectangular"
                                                     sx={{
@@ -523,7 +554,7 @@ const MovieEditionForm = () => {
 
                                     <Grid size={{ xs: 12, sm: 6 }}>
                                         {
-                                            isLoading ?
+                                            !isSuccess ?
                                                 <Skeleton
                                                     variant="rectangular"
                                                     sx={{

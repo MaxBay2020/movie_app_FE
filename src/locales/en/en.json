@@ -67,6 +67,7 @@
     "errorAuthorized": "You are not authorized",
     "errorEmailOrPasswordNotCorrect": "Email or password NOT correct",
     "errorEmailExist": "Email has already been registered",
-    "errorServer": "There is something wrong with server, please try again later"
+    "errorServer": "There is something wrong with server, please try again later",
+    "errorResourceNotFound": "Resource not found"
   }
 }

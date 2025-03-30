@@ -16,6 +16,7 @@ export enum Message {
     'Email or password NOT correct'= "response.errorEmailOrPasswordNotCorrect",
     'Email has already been registered'= "response.errorEmailExist",
     'There is something wrong with server, please try again later'= "response.errorServer",
+    'Resource not found' = 'response.errorResourceNotFound'
 }
 
 export const defaultLimit = 8

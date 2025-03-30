@@ -56,5 +56,16 @@
     "movieImage": {
       "tooLarge": "La taille maximale du fichier image est de {{fileSize}}"
     }
+  },
+  "response": {
+    "errorFind": "Impossible de trouver l'enregistrement dans la base de données",
+    "errorCreate": "Impossible de créer l'enregistrement dans la base de données",
+    "errorParams": "Paramètres nécessaires non fournis ou données invalides",
+    "errorAuth": "Vous n'êtes pas authentifié",
+    "errorAuthorized": "Vous n'êtes pas autorisé",
+    "errorEmailOrPasswordNotCorrect": "Email ou mot de passe incorrect",
+    "errorEmailExist": "L'email est déjà enregistré",
+    "errorServer": "Un problème est survenu sur le serveur, veuillez réessayer plus tard",
+    "errorResourceNotFound": "Ressource introuvable"
   }
 }

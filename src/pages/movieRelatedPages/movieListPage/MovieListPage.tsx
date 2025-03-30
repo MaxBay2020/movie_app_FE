@@ -18,6 +18,9 @@ const MovieListPage = () => {
         console.log(res)
         const translate = Message[res.response?.data?.message]
 
+        if(toast.isActive(t(translate))){
+            return
+        }
         toast.error(t(translate), {
             position: "bottom-right",
             autoClose: 5000,
@@ -28,6 +31,7 @@ const MovieListPage = () => {
             progress: undefined,
             theme: "dark",
             transition: Slide,
+            toastId: t(translate)
         })
     }
 
@@ -37,8 +41,6 @@ const MovieListPage = () => {
         limit: defaultLimit,
         onError
     })
-
-    console.log(error)
 
 
     return (

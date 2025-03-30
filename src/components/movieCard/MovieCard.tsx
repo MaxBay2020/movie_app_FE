@@ -3,6 +3,7 @@ import {movieType} from "../../utils/types";
 import {motion} from "motion/react";
 
 const MovieCard = ({  title, publishingYear, imageUrl }: movieType) => {
+
     return (
         <Card
             component={motion.div}

@@ -1,4 +1,4 @@
-import {Box, Grid, IconButton, Typography, useMediaQuery, useTheme} from "@mui/material";
+import {Box, CircularProgress, Grid, IconButton, Typography, useMediaQuery, useTheme} from "@mui/material";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import {useDropzone} from 'react-dropzone'
@@ -7,9 +7,16 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import { movieFormSchema} from "../../utils/schema";
 import {lazy, memo, useCallback, useRef, useState} from "react";
-import {formatFileSize, MAX_IMAGE_SIZE} from "../../utils/helper";
+import {formatFileSize, MAX_IMAGE_SIZE, Message, StatusCode} from "../../utils/helper";
 import KeyboardReturnOutlinedIcon from '@mui/icons-material/KeyboardReturnOutlined';
 import {useTranslation} from "react-i18next";
+import useUploadFile from "../../customHooks/useUploadFile";
+import {userLogin, userLogout} from "../../features/authFeatures/userSlice";
+import {Slide, toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
+import useLogout from "../../customHooks/useLogout";
+import {useDispatch} from "react-redux";
+import {useQueryClient} from "@tanstack/react-query";
 
 const AlertDialog = lazy(() => import('../alert/Alert'))
 
@@ -24,6 +31,12 @@ const MovieCreationForm = () => {
     const [imagePreview, setImagePreview] = useState<null | string>(null)
     const [isHover, setIsHover] = useState<boolean>(false)
     const [openAlertDialog, setOpenAlertDialog] = useState<boolean>(false)
+
+    const navigate = useNavigate()
+
+    const dispatch = useDispatch()
+
+    const queryClient = useQueryClient()
 
     const handleOpenAlertDialog = () => {
         setOpenAlertDialog(true)
@@ -79,14 +92,52 @@ const MovieCreationForm = () => {
         multiple: false
     })
 
+    const onSuccess = (_data) => {
+        queryClient.invalidateQueries({ queryKey: ["queryAllMovies"] })
+        navigate('/movies?success=true')
+    }
+
+    const onError = (res) => {
+        const statusCode = res.response.status
+
+        if(statusCode === StatusCode.E401){
+            logoutUser()
+            dispatch(userLogout())
+            // token not valid, redirect user to login page
+            navigate('/login')
+        }
+
+        const translate = Message[res.response.data.message]
+
+        toast.error(t(translate), {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Slide,
+        })
+    }
+
+    const  { mutate: uploadMovie, isPending } = useUploadFile({
+        onSuccess,
+        onError
+    })
+
+    const {mutate: logoutUser} = useLogout({
+        onSuccess: () => {},
+        onError: () => {}
+    })
+
     const createMovie = movieInfo => {
-        const movieFormData = new FormData()
+        const movieFormData: FormData = new FormData()
         movieFormData.append('title', movieInfo.title)
         movieFormData.append('publishingYear', movieInfo.publishingYear)
         movieFormData.append('posterImage', getValues('posterImage'))
-        console.log(movieFormData.get('title'))
-        console.log(movieFormData.get('publishingYear'))
-        console.log(movieFormData.get('posterImage'))
+        uploadMovie(movieFormData)
     }
 
     const renderDropZoneBox = () => (
@@ -109,12 +160,12 @@ const MovieCreationForm = () => {
                     sm: '372px',
                     md: '504px'
                 },
-                backgroundColor: theme.palette.inputColor.main,
+                backgroundColor: isPending ? theme.palette.bgColor.dark : theme.palette.inputColor.main,
                 border: '2px dashed #fff',
                 borderRadius: '10px',
                 backgroundImage: imagePreview
                     ? (
-                        isHover ?
+                        isHover || isPending ?
                             `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${imagePreview})`
                             :
                             `url(${imagePreview})`
@@ -125,13 +176,13 @@ const MovieCreationForm = () => {
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
-                cursor: 'pointer'
+                cursor: 'pointer',
 
             })}
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
         >
-            <input {...getInputProps()} accept='image/*' />
+            <input {...getInputProps()} accept='image/*' disabled={isPending} />
 
             {
                 (!imagePreview || isHover)
@@ -145,43 +196,51 @@ const MovieCreationForm = () => {
                         height: '100%'
                     }}
                 >
-                    <Grid>
-                        <IconButton>
-                            <FileDownloadOutlinedIcon />
-                        </IconButton>
-                    </Grid>
+                    {
+                        isPending ?
+                            <CircularProgress />
+                            :
+                            <>
+                                <Grid>
+                                    <IconButton>
+                                        <FileDownloadOutlinedIcon />
+                                    </IconButton>
+                                </Grid>
 
-                    <Grid>
-                        {
-                            isDragActive ?
-                                <Typography
-                                    sx={{
-                                        px: '10px',
-                                        textAlign: 'center',
-                                        typography: {
-                                            xs: 'bodyExtraSmall',
-                                            ms: 'bodySmall'
-                                        }
-                                    }}
-                                >
-                                    {t('moviesCreationPage.dropAnImageHere1')}
-                                </Typography>
-                                :
-                                <Typography
-                                    sx={{
-                                        px: '10px',
-                                        textAlign: 'center',
-                                        typography: {
-                                            xs: 'bodyExtraSmall',
-                                            ms: 'bodySmall'
-                                        }
-                                    }}
-                                >
-                                    {t('moviesCreationPage.dropAnImageHere2')}
-                                </Typography>
+                                <Grid>
+                                    {
+                                        isDragActive ?
+                                            <Typography
+                                                sx={{
+                                                    px: '10px',
+                                                    textAlign: 'center',
+                                                    typography: {
+                                                        xs: 'bodyExtraSmall',
+                                                        ms: 'bodySmall'
+                                                    }
+                                                }}
+                                            >
+                                                {t('moviesCreationPage.dropAnImageHere1')}
+                                            </Typography>
+                                            :
+                                            <Typography
+                                                sx={{
+                                                    px: '10px',
+                                                    textAlign: 'center',
+                                                    typography: {
+                                                        xs: 'bodyExtraSmall',
+                                                        ms: 'bodySmall'
+                                                    }
+                                                }}
+                                            >
+                                                {t('moviesCreationPage.dropAnImageHere2')}
+                                            </Typography>
 
-                        }
-                    </Grid>
+                                    }
+                                </Grid>
+                            </>
+                    }
+
 
                     <Grid>
                         {
@@ -211,7 +270,7 @@ const MovieCreationForm = () => {
             }}
         >
             <Grid>
-                <IconButton onClick={() => handleOpenAlertDialog()}>
+                <IconButton onClick={() => handleOpenAlertDialog()} disabled={isPending}>
                     <KeyboardReturnOutlinedIcon />
                 </IconButton>
             </Grid>
@@ -296,10 +355,17 @@ const MovieCreationForm = () => {
                                 {/* title */}
                                 <Grid sx={{ mb: '24px', width: '100%' }}>
                                     <MyInput
+                                        disabled={isPending}
                                         type='text'
                                         placeholder={t('moviesCreationPage.title')}
                                         {...register('title')}
                                         className={errors.title && 'error'}
+                                        sx={(theme) => ({
+                                            backgroundColor:  isPending && theme.palette.bgColor.dark,
+                                            '&::placeholder': {
+                                                color: isPending && theme.palette.bgColor.light,
+                                            },
+                                        })}
                                     />
                                     <Box>
                                         {
@@ -313,10 +379,17 @@ const MovieCreationForm = () => {
                                 {/* publishing year */}
                                 <Grid sx={{ mb: { xs: '24px', md: '64px'}, width: '100%'  }}>
                                     <MyInput
+                                        disabled={isPending}
                                         type='number'
                                         placeholder={t('moviesCreationPage.publishingYear')}
                                         {...register('publishingYear')}
                                         className={errors.publishingYear && 'error'}
+                                        sx={(theme) => ({
+                                            backgroundColor:  isPending && theme.palette.bgColor.dark,
+                                            '&::placeholder': {
+                                                color: isPending && theme.palette.bgColor.light,
+                                            },
+                                        })}
                                     />
                                     <Box>
                                         {
@@ -347,6 +420,7 @@ const MovieCreationForm = () => {
                                 >
                                     <Grid size={{ xs: 12, sm: 6 }}>
                                         <MyButton
+                                            disabled={isPending}
                                             variant='outlined'
                                             sx={{
                                                 width: {
@@ -358,15 +432,22 @@ const MovieCreationForm = () => {
                                                     xs: '48px',
                                                     sm: '56px'
                                                 },
+                                                cursor: isPending ? 'not-allowed' : 'pointer',
                                             }}
                                             onClick={() => handleOpenAlertDialog()}
                                         >
-                                            {t('actions.cancel')}
+                                            {
+                                                isPending ?
+                                                    <CircularProgress />
+                                                    :
+                                                    t('actions.cancel')
+                                            }
                                         </MyButton>
                                     </Grid>
 
                                     <Grid size={{ xs: 12, sm: 6 }}>
                                         <MyButton
+                                            disabled={isPending}
                                             variant='contained'
                                             type='submit'
                                             sx={{
@@ -379,9 +460,18 @@ const MovieCreationForm = () => {
                                                     xs: '48px',
                                                     sm: '56px'
                                                 },
+                                                cursor: isPending ? 'not-allowed' : 'pointer',
+                                                "&.Mui-disabled": {
+                                                    backgroundColor: isPending && theme.palette.primary.dark,
+                                                }
                                             }}
                                         >
-                                            {t('actions.submit')}
+                                            {
+                                                isPending ?
+                                                    <CircularProgress />
+                                                    :
+                                                    t('actions.submit')
+                                            }
                                         </MyButton>
                                     </Grid>
 

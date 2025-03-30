@@ -7,11 +7,12 @@ import useQueryAllMovies from "../../../customHooks/useQueryAllMovies";
 import {defaultLimit, Message, StatusCode} from "../../../utils/helper";
 import {Slide, toast} from "react-toastify";
 import {useTranslation} from "react-i18next";
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {userLogout} from "../../../features/authFeatures/userSlice";
 import useLogout from "../../../customHooks/useLogout";
+import {useQueryClient} from "@tanstack/react-query";
 
 const MovieListPage = () => {
 
@@ -20,6 +21,10 @@ const MovieListPage = () => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const location = useLocation()
+
+    const queryClient = useQueryClient()
+
 
     const onError = (res) => {
 
@@ -63,6 +68,13 @@ const MovieListPage = () => {
         limit: defaultLimit,
         onError
     })
+
+    useEffect(() => {
+        const success = new URLSearchParams(window.location.search).get("success");
+        if (success) {
+            queryClient.invalidateQueries({ queryKey: ["queryAllMovies"] })
+        }
+    }, [])
 
 
     return (

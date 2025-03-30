@@ -19,6 +19,7 @@
     "@tanstack/react-query-devtools": "^5.69.0",
     "axios": "^1.8.4",
     "i18next": "^24.2.3",
+    "js-cookie": "^3.0.5",
     "motion": "^12.6.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

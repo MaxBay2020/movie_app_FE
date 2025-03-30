@@ -18,7 +18,8 @@ const LoginForm = () => {
 
     const navigate = useNavigate()
 
-    const onLoginSuccess = (e) => {
+    const onLoginSuccess = (data) => {
+        localStorage.setItem('login', 'true')
         navigate('/movies')
     }
 
@@ -60,7 +61,6 @@ const LoginForm = () => {
         const { email, password } = userInfo
         loginUser({ email, password })
     }
-    console.log(isPending)
 
     return (
         <Box

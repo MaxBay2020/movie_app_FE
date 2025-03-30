@@ -3,8 +3,8 @@ import {useMutation} from "@tanstack/react-query";
 import api from "../utils/api";
 
 type useLoginType = {
-    onSuccess: () => void,
-    onError: () => void
+    onSuccess: (data: any) => void,
+    onError: (error: any) => void
 }
 
 

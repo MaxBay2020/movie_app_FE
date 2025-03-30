@@ -63,9 +63,10 @@ FEATURES:
 
 BONUS:
 5. Global theme configured for long-term maintenance such as `Palette`, `Typography`, etc. 
-6. UI refined with `Friendly Alert`,  `Animations`, `file Drag n Drop`, `Back Button`, `Loading Skeleton`, etc.
+6. UI refined with `Friendly Alert`,  `Animations`, `file Drag n Drop`, `Back Button`, `Loading indicator`, etc.
 7. Performance optimized such as `Performace hooks usage`, `Dynamic import`, `memo()`, `Cache data`,etc.
 8. `Not Found Page` added for better UX.
+9. Protected routes implement.
 
 FUTURE:
 

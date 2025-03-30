@@ -5,19 +5,21 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import {Link} from "react-router-dom";
 import MovieCard from "../../movieCard/MovieCard";
 import MyPagination from "../../pagination/Pagination";
-import {useState} from "react";
+import {Dispatch, SetStateAction, useState} from "react";
 import {useTranslation} from "react-i18next";
 
 type MovieListPropsType = {
-    movieList: movieType[]
+    movieList: movieType[],
+    total: number,
+    isFetching: boolean,
+    page: number,
+    setPage: Dispatch<SetStateAction<number>>
 }
 
-const MovieList = ({movieList}: MovieListPropsType) => {
+const MovieList = ({movieList, total, isFetching, page, setPage}: MovieListPropsType) => {
 
     const  { t } = useTranslation()
-    const [page, setPage] = useState<number>(1)
 
-    const [isLoading, setIsLoading] = useState<boolean>(false)
 
 
     const logoutUser = () => {
@@ -49,7 +51,7 @@ const MovieList = ({movieList}: MovieListPropsType) => {
     )
 
     const renderMovieList = () => (
-        movieList.map(({ id, title, publishingYear, imageUrl }) => (
+        movieList?.map(({ id, title, publishingYear, imageUrl }) => (
             <Grid key={id} size={{ xs: 6, md: 3 }}>
                 <Link to={`edit/${id}`}>
                     <MovieCard
@@ -149,14 +151,14 @@ const MovieList = ({movieList}: MovieListPropsType) => {
                         container
                         sx={{
                             alignItems: 'center',
-                            justifyContent: 'space-between',
+                            justifyContent: 'flex-start',
                         }}
                         spacing={{
                             xs: 5,
                             md: 3
                         }}
                     >
-                        { isLoading ? renderMovieListSkeleton() : renderMovieList() }
+                        { isFetching ? renderMovieListSkeleton() : renderMovieList() }
 
                     </Grid>
                 </Grid>
@@ -164,11 +166,11 @@ const MovieList = ({movieList}: MovieListPropsType) => {
                 {/* pagination */}
                 <Grid>
                     {
-                        isLoading ?
+                        isFetching ?
                             renderPaginationSkeleton()
                             :
                             <MyPagination
-                                count={10}
+                                count={total}
                                 page={page}
                                 onChange={(e, value) => changePage(e, value)}
                             />

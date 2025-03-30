@@ -1,10 +1,10 @@
+import { Navigate, Outlet } from "react-router-dom";
 
 const PrivateRoute = () => {
-    return (
-        <div>
+    const login = localStorage.getItem('login')
 
-        </div>
-    );
+
+    return JSON.parse(login) ? <Outlet /> : <Navigate to='/login' replace />
 };
 
 export default PrivateRoute;

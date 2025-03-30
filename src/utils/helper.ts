@@ -18,6 +18,10 @@ export enum Message {
     'There is something wrong with server, please try again later'= "response.errorServer",
 }
 
+export const defaultLimit = 8
+
+export const staleTime = 10 * 60 * 1000 // 10min
+
 
 /**
  * format file size based on kb passed in

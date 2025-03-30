@@ -2,7 +2,6 @@
   "header": {
     "myMovieGallery": "My Movie Gallery",
     "language": "Language"
-
   },
   "loginPage": {
     "signIn": "Sign in",
@@ -58,7 +57,6 @@
       "tooLarge": "The maximum of the image file is {{fileSize}}"
     }
   },
-
   "response": {
     "errorFind": "Cannot find record in the database",
     "errorCreate": "Cannot create record in the database",

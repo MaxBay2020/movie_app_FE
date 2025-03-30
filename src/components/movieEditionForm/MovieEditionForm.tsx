@@ -7,13 +7,16 @@ import {useForm, Controller} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {loginFormSchema, movieFormSchema} from "../../utils/schema";
 import {lazy, memo, useCallback, useEffect, useRef, useState} from "react";
-import {formatFileSize, MAX_IMAGE_SIZE, Message} from "../../utils/helper";
-import {useParams} from "react-router-dom";
+import {formatFileSize, MAX_IMAGE_SIZE, Message, StatusCode} from "../../utils/helper";
+import {useNavigate, useParams} from "react-router-dom";
 import {moviesDummyData} from "../../data/data";
 import KeyboardReturnOutlinedIcon from '@mui/icons-material/KeyboardReturnOutlined';
 import {useTranslation} from "react-i18next";
 import useQueryMovieByMovieId from "../../customHooks/useQueryMovieByMovieId";
 import {Slide, toast} from "react-toastify";
+import {userLogout} from "../../features/authFeatures/userSlice";
+import {useDispatch} from "react-redux";
+import useLogout from "../../customHooks/useLogout";
 
 const AlertDialog = lazy(() => import('../alert/Alert'))
 
@@ -26,8 +29,21 @@ const MovieEditionForm = () => {
     const { movieId } = useParams()
     const { t } = useTranslation()
 
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
 
     const onError = res => {
+
+        const statusCode = res.response.status
+
+        if(statusCode === StatusCode.E401){
+            logoutUser()
+            dispatch(userLogout())
+            // token not valid, redirect user to login page
+            navigate('/login')
+        }
+
         const translate = Message[res.response?.data?.message]
         if(toast.isActive(t(translate))){
             return
@@ -45,6 +61,11 @@ const MovieEditionForm = () => {
             toastId: t(translate)
         })
     }
+
+    const {mutate: logoutUser} = useLogout({
+        onSuccess: () => {},
+        onError: () => {}
+    })
 
     const { data, isSuccess } = useQueryMovieByMovieId({
         queryKey: ['queryMovieByMovieId', movieId],

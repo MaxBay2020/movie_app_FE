@@ -1,12 +1,15 @@
 import {Grid} from "@mui/material";
 import LoginForm from "../../components/auth/loginForm/LoginForm";
 import {Navigate} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const AuthPage = () => {
 
-    const login = localStorage.getItem('login')
+    const { isLoggedIn } = useSelector(state => state.auth)
 
-    if(login){
+
+
+    if(isLoggedIn){
         return <Navigate to="/movies" replace />
     }
 

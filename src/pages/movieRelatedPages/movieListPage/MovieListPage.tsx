@@ -4,18 +4,34 @@ import {moviesDummyData} from "../../../data/data";
 import {movieType} from "../../../utils/types";
 import MovieList from "../../../components/moviePLP/movieList/MovieList";
 import useQueryAllMovies from "../../../customHooks/useQueryAllMovies";
-import {defaultLimit, Message} from "../../../utils/helper";
+import {defaultLimit, Message, StatusCode} from "../../../utils/helper";
 import {Slide, toast} from "react-toastify";
 import {useTranslation} from "react-i18next";
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {userLogout} from "../../../features/authFeatures/userSlice";
+import useLogout from "../../../customHooks/useLogout";
 
 const MovieListPage = () => {
 
     const { t } = useTranslation()
     const [page, setPage] = useState<number>(1)
 
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     const onError = (res) => {
-        console.log(res)
+
+        const statusCode = res.response.status
+
+        if(statusCode === StatusCode.E401){
+            logoutUser()
+            dispatch(userLogout())
+            // token not valid, redirect user to login page
+            navigate('/login')
+        }
+
         const translate = Message[res.response?.data?.message]
 
         if(toast.isActive(t(translate))){
@@ -34,6 +50,12 @@ const MovieListPage = () => {
             toastId: t(translate)
         })
     }
+
+    const {mutate: logoutUser} = useLogout({
+        onSuccess: () => {},
+        onError: () => {}
+    })
+
 
     const { data, isFetching, isSuccess, error } = useQueryAllMovies({
         queryKey: 'queryAllMovies',

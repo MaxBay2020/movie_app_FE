@@ -11,6 +11,8 @@ import useLogin from "../../../customHooks/useLogin";
 
 import {Slide, toast} from "react-toastify";
 import {Message} from "../../../utils/helper";
+import {useDispatch} from "react-redux";
+import {userLogin} from "../../../features/authFeatures/userSlice";
 
 const LoginForm = () => {
 
@@ -18,8 +20,12 @@ const LoginForm = () => {
 
     const navigate = useNavigate()
 
+    const dispatch = useDispatch()
+
     const onLoginSuccess = (data) => {
-        localStorage.setItem('login', 'true')
+        dispatch(userLogin({
+            isLoggedIn: true,
+        }))
         navigate('/movies')
     }
 

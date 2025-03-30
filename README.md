@@ -58,7 +58,7 @@ FEATURES:
 1. Strictly following Figma design, totally `responsive` for all screen sizes.
 2. Form validation including image size limitation.
 3. Movie list pagination.
-4. State management.
+4. State management, both local and global with `@reduxjs/toolkit`.
 5. l10n
 
 BONUS:

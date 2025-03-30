@@ -2,11 +2,16 @@ import {movieType} from "../../../utils/types";
 import {Container, Grid, IconButton, Skeleton, Typography} from "@mui/material";
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import MovieCard from "../../movieCard/MovieCard";
 import MyPagination from "../../pagination/Pagination";
 import {Dispatch, SetStateAction, useState} from "react";
 import {useTranslation} from "react-i18next";
+import {useDispatch} from "react-redux";
+import { userLogout} from "../../../features/authFeatures/userSlice";
+import useLogout from "../../../customHooks/useLogout";
+import {Message} from "../../../utils/helper";
+import {Slide, toast} from "react-toastify";
 
 type MovieListPropsType = {
     movieList: movieType[],
@@ -19,16 +24,110 @@ type MovieListPropsType = {
 const MovieList = ({movieList, total, isFetching, page, setPage}: MovieListPropsType) => {
 
     const  { t } = useTranslation()
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-
-
-    const logoutUser = () => {
-        console.log('logoutUser')
+    const onLogoutSuccess = (_data) => {
+        dispatch(userLogout())
+        navigate('/movies')
     }
+
+    const onLogoutError = (res) => {
+
+        const translate = Message[res.response.data.message]
+
+        toast.error(t(translate), {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Slide,
+        })
+    }
+
+    const {mutate: logoutUser} = useLogout({
+        onSuccess: onLogoutSuccess,
+        onError: onLogoutError,
+    })
+
+
 
     const changePage = (_e, newPage) => {
         setPage(newPage)
     }
+    
+    const renderTitleBarSkeleton = () => (
+        <Grid
+            container
+            sx={{
+                alignItems: 'center',
+                justifyContent: 'space-between',
+            }}
+        >
+            <Grid sx={{ width: '100%'}}>
+                <Skeleton
+                    variant="rectangular"
+                    sx={(theme) => ({
+                        width: '100%',
+                        height: {
+                            xs: '50px',
+                            md: '50px'
+                        },
+                        borderRadius: '12px',
+                        backgroundColor: theme.palette.cardColor.main,
+                    })}
+                />
+            </Grid>
+        </Grid>
+    )
+
+    const renderTitleBar = () => (
+        <Grid
+            container
+            sx={{
+                alignItems: 'center',
+                justifyContent: 'space-between',
+            }}
+        >
+
+            <Grid>
+                <Typography
+                    sx={{
+                        typography: {
+                            xs: 'h3',
+                            md: 'h2'
+                        }
+                    }}
+                >
+                    {t('moviesPLP.myMovies')}
+                    <Link to='create'>
+                        <IconButton>
+                            <AddCircleOutlineOutlinedIcon />
+                        </IconButton>
+                    </Link>
+                </Typography>
+            </Grid>
+
+            <Grid onClick={() => logoutUser()}>
+                <Typography variant='bodyRegular' sx={{
+                    display: {
+                        xs: 'none',
+                        md: 'inline-block'
+                    },
+                    cursor: 'pointer'
+                }}>
+                    {t('actions.logout')}
+                </Typography>
+                <IconButton>
+                    <LogoutOutlinedIcon />
+                </IconButton>
+            </Grid>
+        </Grid>
+    )
 
     const renderMovieListSkeleton = () => (
         Array.from(new Array(4)).map((item, index) => (
@@ -102,47 +201,7 @@ const MovieList = ({movieList, total, isFetching, page, setPage}: MovieListProps
             >
                 {/* title bar */}
                 <Grid sx={{ width: '100%'}}>
-                    <Grid
-                        container
-                        sx={{
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                        }}
-                    >
-
-                        <Grid>
-                            <Typography
-                                sx={{
-                                    typography: {
-                                       xs: 'h3',
-                                        md: 'h2'
-                                    }
-                                }}
-                            >
-                                {t('moviesPLP.myMovies')}
-                                <Link to='create'>
-                                    <IconButton>
-                                        <AddCircleOutlineOutlinedIcon />
-                                    </IconButton>
-                                </Link>
-                            </Typography>
-                        </Grid>
-
-                        <Grid onClick={() => logoutUser()}>
-                            <Typography variant='bodyRegular' sx={{
-                                display: {
-                                    xs: 'none',
-                                    md: 'inline-block'
-                                },
-                                cursor: 'pointer'
-                            }}>
-                                {t('actions.logout')}
-                            </Typography>
-                            <IconButton>
-                                <LogoutOutlinedIcon />
-                            </IconButton>
-                        </Grid>
-                    </Grid>
+                    { isFetching? renderTitleBarSkeleton() : renderTitleBar() }
                 </Grid>
 
                 {/* movie list display */}

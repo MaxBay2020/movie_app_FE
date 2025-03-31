@@ -62,7 +62,7 @@ const MovieListPage = () => {
     })
 
 
-    const { data, isFetching, isSuccess, error } = useQueryAllMovies({
+    const { data, isFetching, isSuccess } = useQueryAllMovies({
         queryKey: 'queryAllMovies',
         page,
         limit: defaultLimit,

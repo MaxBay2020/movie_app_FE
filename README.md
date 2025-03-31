@@ -66,8 +66,9 @@ BONUS:
 6. `Reusable components` created.
 7. UI refined with `Friendly Alert`,  `Animations`, `file Drag n Drop`, `Back Button`, `Skeleton` `Loading indicator`, etc.
 8. Performance optimized such as `Performace hooks usage`, `Dynamic import`, `memo()`, `Cache data`,etc to improve UX.
-9. `Not Found Page` added for better UX.
-10. `Protected routes` implement.
+9. Use `React Query` to handle api calls.
+10. `Not Found Page` added for better UX.
+11. `Protected routes` implement.
 
 FUTURE:
 

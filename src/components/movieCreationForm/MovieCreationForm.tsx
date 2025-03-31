@@ -10,7 +10,7 @@ import {lazy, memo, useCallback, useRef, useState} from "react";
 import {formatFileSize, MAX_IMAGE_SIZE, Message, StatusCode} from "../../utils/helper";
 import KeyboardReturnOutlinedIcon from '@mui/icons-material/KeyboardReturnOutlined';
 import {useTranslation} from "react-i18next";
-import useUploadFile from "../../customHooks/useUploadFile";
+import useCreateMovie from "../../customHooks/useCreateMovie";
 import {userLogin, userLogout} from "../../features/authFeatures/userSlice";
 import {Slide, toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
@@ -122,7 +122,7 @@ const MovieCreationForm = () => {
         })
     }
 
-    const  { mutate: uploadMovie, isPending } = useUploadFile({
+    const  { mutate: uploadMovie, isPending } = useCreateMovie({
         onSuccess,
         onError
     })

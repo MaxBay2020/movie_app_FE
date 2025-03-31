@@ -1,5 +1,5 @@
 import api from "../utils/api";
-import {defaultLimit, staleTime} from "../utils/helper";
+import {staleTime} from "../utils/helper";
 import {useQuery} from "@tanstack/react-query";
 
 type useQueryMovieByMovieIdType = {
@@ -15,7 +15,7 @@ const useQueryMovieByMovieId = ({queryKey, movieId, onError}: useQueryMovieByMov
     }
 
     return useQuery({
-        queryKey: [queryKey, movieId],
+        queryKey,
         queryFn: queryMovieByMovieId,
         staleTime,
 

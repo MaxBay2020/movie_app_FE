@@ -9,18 +9,18 @@ type useUploadFileType = {
 }
 
 
-const useUploadFile = ({ onSuccess, onError}: useUploadFileType) => {
+const useCreateMovie = ({ onSuccess, onError}: useUploadFileType) => {
 
-    const loginUser = newMovie => {
+    const createMovie = newMovie => {
         return api.post('/movies', newMovie)
     }
 
     return useMutation({
-        mutationFn: loginUser,
+        mutationFn: createMovie,
         onSuccess,
         onError
     })
 };
 
-export default useUploadFile;
+export default useCreateMovie;
 

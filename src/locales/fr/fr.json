@@ -32,7 +32,8 @@
     "publishingYear": "Année de publication"
   },
   "moviesEditionPage": {
-    "editMovie": "Modifier le film"
+    "editMovie": "Modifier le film",
+    "notChange": "Vous n'avez rien changé."
   },
   "alert": {
     "title": "Vous allez ignorer les modifications, voulez-vous continuer ?",

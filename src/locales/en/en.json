@@ -32,7 +32,8 @@
     "publishingYear": "Publishing year"
   },
   "moviesEditionPage": {
-    "editMovie": "Edit movie"
+    "editMovie": "Edit movie",
+    "notChange": "You didn't change anything."
   },
   "alert": {
     "title": "You will discard changes, do you want to continue?",

@@ -64,8 +64,9 @@ const LoginForm = () => {
 
 
     const handleLoginUser = userInfo => {
-        const { email, password } = userInfo
-        loginUser({ email, password })
+        const { email, password, rememberMe } = userInfo
+
+        loginUser({ email, password, rememberMe })
     }
 
     return (
@@ -144,14 +145,14 @@ const LoginForm = () => {
 
 
                     {/* checkbox input */}
-                    {/*<Grid>*/}
-                    {/*    <FormGroup>*/}
-                    {/*        <FormControlLabel */}
-                    {/*            control={<MyCheckbox {...register('rememberMe')} />}*/}
-                    {/*            label={<MyLabel>{t('loginPage.rememberMe')}</MyLabel>}*/}
-                    {/*        />*/}
-                    {/*    </FormGroup>*/}
-                    {/*</Grid>*/}
+                    <Grid>
+                        <FormGroup>
+                            <FormControlLabel
+                                control={<MyCheckbox {...register('rememberMe')} />}
+                                label={<MyLabel>{t('loginPage.rememberMe')}</MyLabel>}
+                            />
+                        </FormGroup>
+                    </Grid>
 
 
                     {/* button */}

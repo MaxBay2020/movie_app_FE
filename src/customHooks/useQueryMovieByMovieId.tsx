@@ -3,19 +3,20 @@ import {staleTime} from "../utils/helper";
 import {useQuery} from "@tanstack/react-query";
 
 type useQueryMovieByMovieIdType = {
-    queryKey: unknown[],
+    queryKey: unknown,
     movieId: string,
-    onError: (e: any) => void
+    onError: (e: any) => boolean
 }
 
 const useQueryMovieByMovieId = ({queryKey, movieId, onError}: useQueryMovieByMovieIdType) => {
 
     const queryMovieByMovieId = async () => {
-        return api.get(`/movies/${movieId}`)
+        const res = await api.get(`/movies/${movieId}`)
+        return res.data
     }
 
     return useQuery({
-        queryKey,
+        queryKey: [queryKey, movieId],
         queryFn: queryMovieByMovieId,
         staleTime,
 

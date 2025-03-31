@@ -42,7 +42,7 @@ const AlertDialog = ({handleCloseAlertDialog, openAlertDialog}: AlertPropsType) 
             </DialogContent>
             <DialogActions>
                 <Link to='/movies'>
-                    <MyButton onClick={handleCloseAlertDialog} variant='outlined' color='#fff' sx={{ width: '120px', height: '46px', mr: '10px' }}>
+                    <MyButton onClick={handleCloseAlertDialog} variant='outlined'  sx={{ width: '120px', height: '46px', mr: '10px' }}>
                         {t('actions.discard')}
                     </MyButton>
                 </Link>

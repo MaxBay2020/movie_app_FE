@@ -3,23 +3,22 @@ import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import {useDropzone} from 'react-dropzone'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import {useForm, Controller} from "react-hook-form";
+import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {loginFormSchema, movieFormSchema} from "../../utils/schema";
-import {lazy, memo, useCallback, useEffect, useRef, useState} from "react";
+import {movieFormSchema} from "../../utils/schema";
+import {lazy, memo, useCallback, useEffect, useState} from "react";
 import {formatFileSize, MAX_IMAGE_SIZE, Message, StatusCode} from "../../utils/helper";
 import {useNavigate, useParams} from "react-router-dom";
-import {moviesDummyData} from "../../data/data";
 import KeyboardReturnOutlinedIcon from '@mui/icons-material/KeyboardReturnOutlined';
 import {useTranslation} from "react-i18next";
 import useQueryMovieByMovieId from "../../customHooks/useQueryMovieByMovieId";
 import {Slide, toast} from "react-toastify";
 import {userLogout} from "../../features/authFeatures/userSlice";
-import {useDispatch} from "react-redux";
 import useLogout from "../../customHooks/useLogout";
 import useUpdateMovie from "../../customHooks/useUpdateMovie";
-import useCreateMovie from "../../customHooks/useCreateMovie";
 import {useQueryClient} from "@tanstack/react-query";
+import {useAppDispatch} from "../../redux/hooks";
+import {MovieFormType} from "../../utils/types";
 
 const AlertDialog = lazy(() => import('../alert/Alert'))
 
@@ -33,7 +32,7 @@ const MovieEditionForm = () => {
     const { t } = useTranslation()
 
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const queryClient = useQueryClient()
 
 
@@ -44,13 +43,13 @@ const MovieEditionForm = () => {
     const [openAlertDialog, setOpenAlertDialog] = useState<boolean>(false)
 
 
-    const onSuccess = (_data) => {
+    const onSuccess = () => {
         queryClient.invalidateQueries({ queryKey: ["queryAllMovies"] })
         queryClient.invalidateQueries({ queryKey: ["queryMovieByMovieId", movieId] })
         navigate('/movies?success=true')
     }
 
-    const onError = (res) => {
+    const onError = (res: any) => {
         const statusCode = res.response.status
 
         if(statusCode === StatusCode.E401){
@@ -58,12 +57,13 @@ const MovieEditionForm = () => {
             dispatch(userLogout())
             // token not valid, redirect user to login page
             navigate('/login')
+            return false
         }
 
-        const translate = Message[res.response.data.message]
+        const translate = Message[res.response.data.message as keyof typeof Message]
 
         if(toast.isActive(t(translate))){
-            return
+            return false
         }
         toast.error(t(translate), {
             position: "bottom-right",
@@ -77,6 +77,8 @@ const MovieEditionForm = () => {
             transition: Slide,
             toastId: t(translate)
         })
+
+        return false
     }
 
     const {mutate: logoutUser} = useLogout({
@@ -85,12 +87,12 @@ const MovieEditionForm = () => {
     })
 
     const { data, isSuccess } = useQueryMovieByMovieId({
-        queryKey: ['queryMovieByMovieId', movieId],
-        movieId,
+        queryKey: 'queryMovieByMovieId',
+        movieId: movieId!,
         onError
     })
 
-    const movie = data?.data?.movie
+    const movie = data?.movie
 
     const handleOpenAlertDialog = () => {
         setOpenAlertDialog(true)
@@ -130,16 +132,15 @@ const MovieEditionForm = () => {
     const {
         register,
         handleSubmit,
-        getValues,
         setValue,
         setError,
         formState: { errors, isDirty }
-    }  = useForm({
+    }  = useForm<MovieFormType>({
         resolver: yupResolver(movieFormSchema),
-        defaultValue: movie
+        defaultValues: movie
     })
 
-    const onDrop = useCallback(acceptedFiles => {
+    const onDrop = useCallback((acceptedFiles: any) => {
         const file = acceptedFiles[0]
         if(!file){
             return
@@ -150,7 +151,7 @@ const MovieEditionForm = () => {
     }, [])
 
     const onDropRejected = useCallback(
-        (fileRejections) => {
+        (fileRejections: any) => {
             const errorMessage = fileRejections[0].errors[0].code
             if(errorMessage === 'file-too-large'){
 
@@ -192,8 +193,8 @@ const MovieEditionForm = () => {
     }, [isSuccess])
 
 
-    const handleUpdateMovie = movieInfo => {
-
+    const handleUpdateMovie = (movieInfo: MovieFormType) => {
+        console.log(movieInfo)
         if(!isDirty){
             // not change anything
             return toast.error(t('moviesEditionPage.notChange'), {
@@ -209,11 +210,14 @@ const MovieEditionForm = () => {
             })
         }
 
-        const movieFormData: FormData = new FormData()
+        if(!movieId ){
+            return
+        }
+        const movieFormData = new FormData()
         movieFormData.append('movieId', movieId)
         movieFormData.append('title', movieInfo.title)
-        movieFormData.append('publishingYear', movieInfo.publishingYear)
-        movieFormData.append('posterImage', getValues('posterImage'))
+        movieFormData.append('publishingYear', movieInfo.publishingYear.toString())
+        movieFormData.append('posterImage', movieInfo.posterImage!)
 
         updateMovie(movieFormData)
     }
@@ -325,7 +329,7 @@ const MovieEditionForm = () => {
                             errors?.posterImage
                             &&
                             <Typography variant='bodyExtraSmall' color='error'>
-                                {t(errors.posterImage.message, { fileSize: formatFileSize(MAX_IMAGE_SIZE) })}
+                                {t(errors.posterImage.message as string ||  'otherErrors', { fileSize: formatFileSize(MAX_IMAGE_SIZE) })}
                             </Typography>
                         }
                     </Grid>
@@ -507,9 +511,9 @@ const MovieEditionForm = () => {
                                                 {...register('title')}
                                                 className={errors.title && 'error'}
                                                 sx={(theme) => ({
-                                                    backgroundColor:  isPending && theme.palette.bgColor.dark,
+                                                    backgroundColor:  isPending ? theme.palette.bgColor.dark : undefined,
                                                     '&::placeholder': {
-                                                        color: isPending && theme.palette.bgColor.light,
+                                                        color: isPending ? theme.palette.bgColor.light : undefined,
                                                     },
                                                 })}
                                             />
@@ -519,7 +523,7 @@ const MovieEditionForm = () => {
                                             errors.title
                                             &&
                                             <Typography variant='bodyExtraSmall' color='error'>
-                                                {t(errors.title.message)}
+                                                {t(errors.title?.message as string || 'otherErrors')}
                                             </Typography>
                                         }
                                     </Box>
@@ -546,9 +550,9 @@ const MovieEditionForm = () => {
                                                 {...register('publishingYear')}
                                                 className={errors.publishingYear && 'error'}
                                                 sx={(theme) => ({
-                                                    backgroundColor:  isPending && theme.palette.bgColor.dark,
+                                                    backgroundColor:  isPending ? theme.palette.bgColor.dark : undefined,
                                                     '&::placeholder': {
-                                                        color: isPending && theme.palette.bgColor.light,
+                                                        color: isPending ? theme.palette.bgColor.light : undefined,
                                                     },
                                                 })}
                                             />
@@ -559,7 +563,7 @@ const MovieEditionForm = () => {
                                             errors.publishingYear
                                             &&
                                             <Typography variant='bodyExtraSmall' color='error'>
-                                                {t(errors.publishingYear.message, { maxYear: new Date().getFullYear() })}
+                                                {t(errors.publishingYear.message as string || 'otherErrors', { maxYear: new Date().getFullYear() })}
                                             </Typography>
                                         }
                                     </Box>
@@ -673,7 +677,7 @@ const MovieEditionForm = () => {
                                                         },
                                                         cursor: isPending ? 'not-allowed' : 'pointer',
                                                         "&.Mui-disabled": {
-                                                            backgroundColor: isPending && theme.palette.primary.dark,
+                                                            backgroundColor: isPending ? theme.palette.primary.dark : undefined,
                                                         }
 
                                                     }}

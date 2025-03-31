@@ -1,17 +1,17 @@
 import {movieType} from "../../../utils/types";
-import {Container, Grid, IconButton, Skeleton, Typography} from "@mui/material";
+import {Grid, IconButton, Skeleton, Typography} from "@mui/material";
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import {Link, useNavigate} from "react-router-dom";
 import MovieCard from "../../movieCard/MovieCard";
 import MyPagination from "../../pagination/Pagination";
-import {Dispatch, SetStateAction, useState} from "react";
+import {Dispatch, SetStateAction} from "react";
 import {useTranslation} from "react-i18next";
-import {useDispatch} from "react-redux";
 import { userLogout} from "../../../features/authFeatures/userSlice";
 import useLogout from "../../../customHooks/useLogout";
 import {Message} from "../../../utils/helper";
 import {Slide, toast} from "react-toastify";
+import {useAppDispatch} from "../../../redux/hooks";
 
 type MovieListPropsType = {
     movieList: movieType[],
@@ -22,19 +22,18 @@ type MovieListPropsType = {
 }
 
 const MovieList = ({movieList, total, isFetching, page, setPage}: MovieListPropsType) => {
-
     const  { t } = useTranslation()
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
-    const onLogoutSuccess = (_data) => {
+    const onLogoutSuccess = (_data: any) => {
         dispatch(userLogout())
         navigate('/movies')
     }
 
-    const onLogoutError = (res) => {
+    const onLogoutError = (res: any) => {
 
-        const translate = Message[res.response.data.message]
+        const translate = Message[res.response.data.message as keyof typeof Message]
 
         toast.error(t(translate), {
             position: "bottom-right",
@@ -56,7 +55,7 @@ const MovieList = ({movieList, total, isFetching, page, setPage}: MovieListProps
 
 
 
-    const changePage = (_e, newPage) => {
+    const changePage = (_e: any, newPage: number) => {
         setPage(newPage)
     }
     
@@ -130,7 +129,7 @@ const MovieList = ({movieList, total, isFetching, page, setPage}: MovieListProps
     )
 
     const renderMovieListSkeleton = () => (
-        Array.from(new Array(4)).map((item, index) => (
+        Array.from(new Array(8)).map((_item, index) => (
             <Grid key={index} size={{ xs: 6, md: 3 }}>
                 <Skeleton
                     variant="rectangular"

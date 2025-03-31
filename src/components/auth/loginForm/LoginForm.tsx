@@ -11,8 +11,9 @@ import useLogin from "../../../customHooks/useLogin";
 
 import {Slide, toast} from "react-toastify";
 import {Message} from "../../../utils/helper";
-import {useDispatch} from "react-redux";
 import {userLogin} from "../../../features/authFeatures/userSlice";
+import {useAppDispatch} from "../../../redux/hooks";
+import {userType} from "../../../utils/types";
 
 const LoginForm = () => {
 
@@ -20,18 +21,18 @@ const LoginForm = () => {
 
     const navigate = useNavigate()
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
-    const onLoginSuccess = (data) => {
+    const onLoginSuccess = () => {
         dispatch(userLogin({
             isLoggedIn: true,
         }))
         navigate('/movies')
     }
 
-    const onLoginError = (res) => {
+    const onLoginError = (res: any) => {
 
-        const translate = Message[res.response.data.message]
+        const translate = Message[res.response.data.message as keyof typeof Message]
 
         toast.error(t(translate), {
             position: "bottom-right",
@@ -63,7 +64,8 @@ const LoginForm = () => {
 
 
 
-    const handleLoginUser = userInfo => {
+    const handleLoginUser = (userInfo: userType) => {
+        console.log(userInfo)
         const { email, password, rememberMe } = userInfo
 
         loginUser({ email, password, rememberMe })
@@ -108,15 +110,15 @@ const LoginForm = () => {
                             {...register('email')}
                             className={errors.email && 'error'}
                             sx={(theme) => ({
-                                backgroundColor:  isPending && theme.palette.bgColor.dark,
-                                color: isPending && theme.palette.bgColor.light,
+                                backgroundColor:  isPending ? theme.palette.bgColor.dark : undefined,
+                                color: isPending ? theme.palette.bgColor.light : undefined,
                             })}
                         />
                         <Box>
                             {
                                 errors.email
                                 &&
-                                <Typography variant='bodyExtraSmall' color='error'>{t(errors.email.message)}</Typography>
+                                <Typography variant='bodyExtraSmall' color='error'>{t(errors.email.message ?? 'otherErrors')}</Typography>
                             }
                         </Box>
                     </Grid>
@@ -130,15 +132,15 @@ const LoginForm = () => {
                             {...register('password')}
                             className={errors.password && 'error'}
                             sx={(theme) => ({
-                                backgroundColor:  isPending && theme.palette.bgColor.dark,
-                                color: isPending && theme.palette.bgColor.light,
+                                backgroundColor:  isPending ? theme.palette.bgColor.dark : undefined,
+                                color: isPending ? theme.palette.bgColor.light : undefined,
                             })}
                         />
                         <Box>
                             {
                                 errors.password
                                 &&
-                                <Typography variant='bodyExtraSmall' color='error'>{t(errors.password.message)}</Typography>
+                                <Typography variant='bodyExtraSmall' color='error'>{t(errors.password.message ?? 'otherErrors')}</Typography>
                             }
                         </Box>
                     </Grid>

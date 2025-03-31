@@ -16,7 +16,8 @@ export enum Message {
     'Email or password NOT correct'= "response.errorEmailOrPasswordNotCorrect",
     'Email has already been registered'= "response.errorEmailExist",
     'There is something wrong with server, please try again later'= "response.errorServer",
-    'Resource not found' = 'response.errorResourceNotFound'
+    'Resource not found' = 'response.errorResourceNotFound',
+    'otherErrors' = 'Other error, please contact admin'
 }
 
 export enum StatusCode {

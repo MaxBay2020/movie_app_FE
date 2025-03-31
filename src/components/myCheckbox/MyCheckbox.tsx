@@ -1,7 +1,7 @@
 import {Checkbox, styled} from "@mui/material";
 import {memo} from "react";
 
-const MyCheckboxStyle = ({ theme }) => ({
+const MyCheckboxStyle = ({ theme }: any) => ({
     '& .css-1umw9bq-MuiSvgIcon-root': {
         fill: theme.palette.inputColor.main,
     },
@@ -11,7 +11,7 @@ const MyCheckboxStyle = ({ theme }) => ({
 
 })
 
-const MyLabelStyle = ({ theme }) => ({
+const MyLabelStyle = ({ theme }: any) => ({
     ...theme.typography.bodySmall,
 })
 

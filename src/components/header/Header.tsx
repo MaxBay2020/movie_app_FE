@@ -1,4 +1,4 @@
-import {AppBar, Box, Button, FormControl, InputLabel, MenuItem, Select, Toolbar, Typography} from "@mui/material";
+import {AppBar, Box, FormControl, InputLabel, MenuItem, Select, Toolbar, Typography} from "@mui/material";
 import {languages} from "../../utils/helper";
 import {useState} from "react";
 import {useTranslation} from "react-i18next";
@@ -9,7 +9,7 @@ const Header = () => {
     const [language, setLanguage] = useState<string>(localStorage.getItem('language') || 'English')
     const { t, i18n } = useTranslation()
 
-    const changeLanguage = (e: SelectChangeEvent) => {
+    const changeLanguage = (e: any) => {
         const language = e.target.value
         setLanguage(language)
         i18n.changeLanguage(language)
@@ -19,7 +19,7 @@ const Header = () => {
 
     return (
         <Box sx={{ flexGrow: 1, }}>
-            <AppBar position="static" sx={(theme) => ({ backgroundColor: theme.palette.cardColor.main })}>
+            <AppBar position="fixed" sx={(theme) => ({ backgroundColor: theme.palette.cardColor.main })}>
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         <Link to='/movies'>
@@ -27,7 +27,7 @@ const Header = () => {
                         </Link>
                     </Typography>
 
-                    <FormControl sx={{ m: 1, minWidth: 120, mt: '15px' }} size="small">
+                    <FormControl sx={{ m: 1, minWidth: 150, mt: '15px' }} size="small">
                         <InputLabel id="demo-select-small-label">{t('header.language')}</InputLabel>
                         <Select
                             labelId="demo-select-small-label"
@@ -61,7 +61,7 @@ const Header = () => {
                                         key={language}
                                         value={language}
                                     >
-                                        {languages[language]}
+                                        {languages[language as keyof typeof languages]}
                                     </MenuItem>
                                 ))
                             }

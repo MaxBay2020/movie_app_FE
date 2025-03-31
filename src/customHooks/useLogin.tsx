@@ -1,6 +1,6 @@
-import axios from "axios";
 import {useMutation} from "@tanstack/react-query";
 import api from "../utils/api";
+import {userType} from "../utils/types";
 
 type useLoginType = {
     onSuccess: (data: any) => void,
@@ -10,7 +10,7 @@ type useLoginType = {
 
 const useLogin = ({ onSuccess, onError}: useLoginType) => {
 
-    const loginUser = user => {
+    const loginUser = (user: userType) => {
         return api.post('/auth/login', user)
     }
 

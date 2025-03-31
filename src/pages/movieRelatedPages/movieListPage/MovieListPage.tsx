@@ -1,18 +1,16 @@
 import {Grid} from "@mui/material";
 import EmptyMovieList from "../../../components/moviePLP/emptyMovieList/EmptyMovieList";
-import {moviesDummyData} from "../../../data/data";
-import {movieType} from "../../../utils/types";
 import MovieList from "../../../components/moviePLP/movieList/MovieList";
 import useQueryAllMovies from "../../../customHooks/useQueryAllMovies";
 import {defaultLimit, Message, StatusCode} from "../../../utils/helper";
 import {Slide, toast} from "react-toastify";
 import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
 import {userLogout} from "../../../features/authFeatures/userSlice";
 import useLogout from "../../../customHooks/useLogout";
 import {useQueryClient} from "@tanstack/react-query";
+import {useAppDispatch} from "../../../redux/hooks";
 
 const MovieListPage = () => {
 
@@ -20,15 +18,14 @@ const MovieListPage = () => {
     const [page, setPage] = useState<number>(1)
 
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const location = useLocation()
+    const dispatch = useAppDispatch()
 
     const queryClient = useQueryClient()
 
 
-    const onError = (res) => {
+    const onError = (res: any) => {
 
-        const statusCode = res.response.status
+        const statusCode = res.response?.status
 
         if(statusCode === StatusCode.E401){
             logoutUser()
@@ -37,10 +34,10 @@ const MovieListPage = () => {
             navigate('/login')
         }
 
-        const translate = Message[res.response?.data?.message]
+        const translate = Message[res.response?.data?.message as keyof typeof Message]
 
         if(toast.isActive(t(translate))){
-            return
+            return false
         }
         toast.error(t(translate), {
             position: "bottom-right",
@@ -54,6 +51,9 @@ const MovieListPage = () => {
             transition: Slide,
             toastId: t(translate)
         })
+        
+        return false
+
     }
 
     const {mutate: logoutUser} = useLogout({
@@ -89,7 +89,7 @@ const MovieListPage = () => {
         >
             {/* when no movie in db */}
             {
-                isSuccess && !(data?.data.movies?.length)
+                isSuccess && !(data?.movies?.length)
                 &&
                 <Grid>
                     <EmptyMovieList />
@@ -97,15 +97,18 @@ const MovieListPage = () => {
             }
 
             {/* movie list */}
-            <Grid sx={{ width: '100%' }}>
-                <MovieList
-                    movieList={data?.data.movies}
-                    total={data?.data.total}
-                    isFetching={isFetching}
-                    page={page}
-                    setPage={setPage}
-                />
-            </Grid>
+            {
+                <Grid sx={{ width: '100%' }}>
+                    <MovieList
+                        movieList={data?.movies || []}
+                        total={data?.total || 0}
+                        isFetching={isFetching}
+                        page={page}
+                        setPage={setPage}
+                    />
+                </Grid>
+            }
+
 
         </Grid>
     );

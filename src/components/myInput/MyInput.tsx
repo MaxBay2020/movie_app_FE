@@ -1,7 +1,7 @@
 import {styled} from "@mui/material";
 import {memo} from "react";
 
-const myInputStyle = ({ theme, style }) => ({
+const myInputStyle = ({ theme, style }: any) => ({
     width: style?.width || '100%',
     height: '45px',
     borderRadius: '10px',
@@ -32,6 +32,6 @@ const myInputStyle = ({ theme, style }) => ({
     },
 });
 
-const MyInput = styled('input')(myInputStyle);
+const MyInput = styled('input')(myInputStyle)
 
 export default memo(MyInput);

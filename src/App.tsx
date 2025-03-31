@@ -1,5 +1,4 @@
 import {Routes, Route, Navigate} from 'react-router-dom'
-import {ToastContainer} from 'react-toastify'
 import MovieListPage from "./pages/movieRelatedPages/movieListPage/MovieListPage";
 import AuthPage from "./pages/authPage/AuthPage";
 import CommonLayout from "./layouts/CommonLayout";

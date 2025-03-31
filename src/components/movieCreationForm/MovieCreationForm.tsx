@@ -6,17 +6,17 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import { movieFormSchema} from "../../utils/schema";
-import {lazy, memo, useCallback, useRef, useState} from "react";
+import {lazy, memo, useCallback, useState} from "react";
 import {formatFileSize, MAX_IMAGE_SIZE, Message, StatusCode} from "../../utils/helper";
 import KeyboardReturnOutlinedIcon from '@mui/icons-material/KeyboardReturnOutlined';
 import {useTranslation} from "react-i18next";
 import useCreateMovie from "../../customHooks/useCreateMovie";
-import {userLogin, userLogout} from "../../features/authFeatures/userSlice";
+import {userLogout} from "../../features/authFeatures/userSlice";
 import {Slide, toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 import useLogout from "../../customHooks/useLogout";
-import {useDispatch} from "react-redux";
 import {useQueryClient} from "@tanstack/react-query";
+import {useAppDispatch} from "../../redux/hooks";
 
 const AlertDialog = lazy(() => import('../alert/Alert'))
 
@@ -34,7 +34,7 @@ const MovieCreationForm = () => {
 
     const navigate = useNavigate()
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const queryClient = useQueryClient()
 
@@ -49,7 +49,6 @@ const MovieCreationForm = () => {
     const {
         register,
         handleSubmit,
-        getValues,
         setValue,
         setError,
         formState: { errors }
@@ -57,7 +56,7 @@ const MovieCreationForm = () => {
         resolver: yupResolver(movieFormSchema),
     })
 
-    const onDrop = useCallback(acceptedFiles => {
+    const onDrop = useCallback((acceptedFiles: any) => {
         const file = acceptedFiles[0]
         if(!file){
             return
@@ -68,7 +67,7 @@ const MovieCreationForm = () => {
     }, [])
 
     const onDropRejected = useCallback(
-        (fileRejections) => {
+        (fileRejections: any) => {
             const errorMessage = fileRejections[0].errors[0].code
             if(errorMessage === 'file-too-large'){
 
@@ -92,12 +91,12 @@ const MovieCreationForm = () => {
         multiple: false
     })
 
-    const onSuccess = (_data) => {
+    const onSuccess = () => {
         queryClient.invalidateQueries({ queryKey: ["queryAllMovies"] })
         navigate('/movies?success=true')
     }
 
-    const onError = (res) => {
+    const onError = (res: any) => {
         const statusCode = res.response.status
 
         if(statusCode === StatusCode.E401){
@@ -107,7 +106,7 @@ const MovieCreationForm = () => {
             navigate('/login')
         }
 
-        const translate = Message[res.response.data.message]
+        const translate = Message[res.response.data.message as keyof typeof Message]
 
         toast.error(t(translate), {
             position: "bottom-right",
@@ -132,11 +131,16 @@ const MovieCreationForm = () => {
         onError: () => {}
     })
 
-    const createMovie = movieInfo => {
+    const createMovie = (movieInfo: any) => {
+        console.log(movieInfo)
         const movieFormData: FormData = new FormData()
         movieFormData.append('title', movieInfo.title)
         movieFormData.append('publishingYear', movieInfo.publishingYear)
-        movieFormData.append('posterImage', getValues('posterImage'))
+
+        if(movieInfo.posterImage){
+            movieFormData.append('posterImage', movieInfo.posterImage)
+
+        }
         uploadMovie(movieFormData)
     }
 
@@ -247,7 +251,7 @@ const MovieCreationForm = () => {
                             errors?.posterImage
                             &&
                             <Typography variant='bodyExtraSmall' color='error'>
-                                {t(errors.posterImage.message, { fileSize: formatFileSize(MAX_IMAGE_SIZE) })}
+                                {t(errors.posterImage.message ?? 'otherErrors', { fileSize: formatFileSize(MAX_IMAGE_SIZE) })}
                             </Typography>
                         }
                     </Grid>
@@ -361,9 +365,9 @@ const MovieCreationForm = () => {
                                         {...register('title')}
                                         className={errors.title && 'error'}
                                         sx={(theme) => ({
-                                            backgroundColor:  isPending && theme.palette.bgColor.dark,
+                                            backgroundColor:  isPending ? theme.palette.bgColor.dark : undefined,
                                             '&::placeholder': {
-                                                color: isPending && theme.palette.bgColor.light,
+                                                color: isPending ? theme.palette.bgColor.light : undefined,
                                             },
                                         })}
                                     />
@@ -371,7 +375,7 @@ const MovieCreationForm = () => {
                                         {
                                             errors.title
                                             &&
-                                            <Typography variant='bodyExtraSmall' color='error'>{t(errors.title.message)}</Typography>
+                                            <Typography variant='bodyExtraSmall' color='error'>{t(errors.title.message ?? 'otherErrors')}</Typography>
                                         }
                                     </Box>
                                 </Grid>
@@ -385,9 +389,9 @@ const MovieCreationForm = () => {
                                         {...register('publishingYear')}
                                         className={errors.publishingYear && 'error'}
                                         sx={(theme) => ({
-                                            backgroundColor:  isPending && theme.palette.bgColor.dark,
+                                            backgroundColor:  isPending ? theme.palette.bgColor.dark : undefined,
                                             '&::placeholder': {
-                                                color: isPending && theme.palette.bgColor.light,
+                                                color: isPending ? theme.palette.bgColor.light : undefined,
                                             },
                                         })}
                                     />
@@ -396,7 +400,7 @@ const MovieCreationForm = () => {
                                             errors.publishingYear
                                             &&
                                             <Typography variant='bodyExtraSmall' color='error'>
-                                                {t(errors.publishingYear.message, { maxYear: new Date().getFullYear() })}
+                                                {t(errors.publishingYear.message ?? 'otherErrors', { maxYear: new Date().getFullYear() })}
                                             </Typography>
                                         }
                                     </Box>
@@ -462,7 +466,7 @@ const MovieCreationForm = () => {
                                                 },
                                                 cursor: isPending ? 'not-allowed' : 'pointer',
                                                 "&.Mui-disabled": {
-                                                    backgroundColor: isPending && theme.palette.primary.dark,
+                                                    backgroundColor: isPending ? theme.palette.primary.dark : undefined,
                                                 }
                                             }}
                                         >

@@ -1,5 +1,4 @@
 
-import axios from "axios";
 import {useMutation} from "@tanstack/react-query";
 import api from "../utils/api";
 
@@ -11,7 +10,7 @@ type useUploadFileType = {
 
 const useCreateMovie = ({ onSuccess, onError}: useUploadFileType) => {
 
-    const createMovie = newMovie => {
+    const createMovie = (newMovie: any) => {
         return api.post('/movies', newMovie)
     }
 

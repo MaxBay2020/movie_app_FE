@@ -1,5 +1,45 @@
 import {createTheme} from "@mui/material/styles";
 
+
+declare module "@mui/material/styles" {
+    interface Palette {
+        bgColor: Palette["primary"];
+        inputColor: Palette["primary"];
+        cardColor: Palette["primary"];
+    }
+
+    interface PaletteOptions {
+        bgColor?: PaletteOptions["primary"];
+        inputColor?: PaletteOptions["primary"];
+        cardColor?: PaletteOptions["primary"];
+    }
+
+    interface TypographyVariants {
+        bodyLarge: React.CSSProperties;
+        bodyRegular: React.CSSProperties;
+        bodySmall: React.CSSProperties;
+        bodyExtraSmall: React.CSSProperties;
+    }
+
+    interface TypographyVariantsOptions {
+        bodyLarge?: React.CSSProperties;
+        bodyRegular?: React.CSSProperties;
+        bodySmall?: React.CSSProperties;
+        bodyExtraSmall?: React.CSSProperties;
+    }
+}
+
+
+declare module "@mui/material/Typography" {
+    interface TypographyPropsVariantOverrides {
+        bodyLarge: true;
+        bodyRegular: true;
+        bodySmall: true;
+        bodyExtraSmall: true;
+    }
+}
+
+
 const globalTheme = createTheme({
     palette: {
         primary: {
@@ -20,9 +60,7 @@ const globalTheme = createTheme({
         cardColor: {
             main: '#092C39'
         },
-        grey: {
-            main: 'rgba(194,194,194,0.24)'
-        }
+
     },
     typography: {
         allVariants: {

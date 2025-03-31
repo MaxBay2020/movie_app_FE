@@ -1,11 +1,11 @@
 import {Grid} from "@mui/material";
 import LoginForm from "../../components/auth/loginForm/LoginForm";
 import {Navigate} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useAppSelector} from "../../redux/hooks";
 
 const AuthPage = () => {
 
-    const { isLoggedIn } = useSelector(state => state.auth)
+    const { isLoggedIn } = useAppSelector(state => state.auth)
 
 
 

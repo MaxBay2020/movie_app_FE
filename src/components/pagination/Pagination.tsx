@@ -1,10 +1,11 @@
 import {Pagination, PaginationItem, Typography} from "@mui/material";
 import {useTranslation} from "react-i18next";
+import {ChangeEvent} from "react";
 
 type MyPaginationPropsType = {
     count: number,
     page: number,
-    onChange: (e: React.MouseEvent<HTMLElement, MouseEvent>, page: number) => void,  // eslint-disable-line react/no-unused-prop-types  // for TypeScript usage only, no need for React.MouseEvent in this case.  // eslint-disable-next-line react/prop-types
+    onChange: (event: ChangeEvent<unknown>, page: number) => void
 }
 
 const MyPagination = ({ count, page, onChange }: MyPaginationPropsType) => {

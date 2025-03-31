@@ -10,7 +10,7 @@ type useUpdateMovieType = {
 
 const useUpdateMovie = ({ onSuccess, onError}: useUpdateMovieType) => {
 
-    const updateMovie = (updatedMovie) => {
+    const updateMovie = (updatedMovie: any) => {
 
         return api.put(`/movies/${updatedMovie.get('movieId')}`, updatedMovie)
     }

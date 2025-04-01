@@ -65,7 +65,6 @@ const LoginForm = () => {
 
 
     const handleLoginUser = (userInfo: userType) => {
-        console.log(userInfo)
         const { email, password, rememberMe } = userInfo
 
         loginUser({ email, password, rememberMe })

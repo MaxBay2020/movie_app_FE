@@ -1,4 +1,4 @@
-# Movie List Application (React + TypeScript + Vite)
+# Movie Gallery Application - Frontend (React + TypeScript + Vite)
 
 ## Overview
 
@@ -13,24 +13,21 @@ This is a Movie List application built using Vite, React, and TypeScript. The ap
 + Localization (i18n): Supports multiple languages for internationalization.
 
 ## Installation
-
 1. Clone the repository:
-
 ```shell
 git clone https://github.com/MaxBay2020/movie_app_FE
 cd movie_app_FE
 ```
 
 2. Install dependencies:
-
 ```shell
 npm install 
 # or 
 yarn
 ```
 
-3. Set up environment variables based on `.env.example` file:
-Create a `.env` file in the root directory and configure it based on your API settings:
+3. Set up environment variables:
+Create a `.env` file in the root directory and configure it based on `.env.example` file.
 
 
 4. Start the development server:
@@ -41,7 +38,6 @@ yarn dev
 ```
 
 ## Build and Deployment
-
 1. To create a production build:
 ```shell
 npm run build
@@ -79,7 +75,7 @@ npm run preview
 7. UI refined with `Friendly Alert`,  `Animations`, `file Drag n Drop`, `Back Button`, `Skeleton` `Loading indicator`, etc.
 8. Performance optimized such as `Performace hooks usage`, `Dynamic import`, `memo()`, `Cache data`,etc to improve UX.
 9. Use `React Query` to handle api calls.
-10. `Snack bar`, `Not Found Page` added for better UX.
+10. `Snack bar`, `404 Not Found Page` added for better UX.
 11. `Protected routes` implement.
 
 

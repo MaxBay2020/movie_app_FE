@@ -68,14 +68,15 @@ npm run preview
 3. Movie list `pagination`.
 4. `State management`, both local and global with `@reduxjs/toolkit`.
 5. `l10n` for EN and FR.
+6. Deployed through `AWS S3`.
 
 # Bonus done:
-5. `Global theme` configured for long-term maintenance such as `Palette`, `Typography`, etc. 
-6. `Reusable components` created, such as `MyInput`, `MyButton`, `MyCheckbot` for future reuse.
-7. UI refined with `Friendly Alert`,  `Animations`, `file Drag n Drop`, `Back Button`, `Skeleton` `Loading indicator`, etc.
-8. Performance optimized such as `Performace hooks usage`, `Dynamic import`, `memo()`, `Cache data`,etc to improve UX.
-9. Use `React Query` to handle api calls.
-10. `Snack bar`, `404 Not Found Page` added for better UX.
-11. `Protected routes` implement.
+7. `Global theme` configured for long-term maintenance such as `Palette`, `Typography`, etc. 
+8. `Reusable components` created, such as `MyInput`, `MyButton`, `MyCheckbot` for future reuse.
+9. UI refined with `Friendly Alert`,  `Animations`, `file Drag n Drop`, `Back Button`, `Skeleton` `Loading indicator`, etc.
+10. Performance optimized such as `Performace hooks usage`, `Dynamic import`, `memo()`, `Cache data`,etc to improve UX.
+11. Use `React Query` to handle api calls.
+12. `Snack bar`, `404 Not Found Page` added for better UX.
+13. `Protected routes` implement.
 
 

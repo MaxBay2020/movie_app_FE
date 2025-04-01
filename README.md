@@ -1,75 +1,85 @@
-# React + TypeScript + Vite
+# Movie List Application (React + TypeScript + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This is a Movie List application built using Vite, React, and TypeScript. The application allows users to manage a list of movies, including viewing, creating, updating, and paginating through movies. It also supports authentication and localization (i18n).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features:
++ User Authentication: Login and logout functionality and Securely.
++ Movie List with Pagination: View a paginated list of movies.
++ Movie Details Page: View detailed information about a movie.
++ Movie Creation: Add a new movie to the list.
++ Movie Update: Edit an existing movie.
++ Localization (i18n): Supports multiple languages for internationalization.
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Clone the repository:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```shell
+git clone https://github.com/MaxBay2020/movie_app_FE
+cd movie_app_FE
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Install dependencies:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```shell
+npm install 
+# or 
+yarn
 ```
 
+3. Set up environment variables based on `.env.example` file:
+Create a `.env` file in the root directory and configure it based on your API settings:
 
-FEATURES:
-1. Strictly following Figma design, totally `responsive` for all screen sizes.
-2. Form validation including image size limitation.
-3. Movie list pagination.
-4. State management, both local and global with `@reduxjs/toolkit`.
-5. l10n
 
-BONUS:
-5. Global theme configured for long-term maintenance such as `Palette`, `Typography`, etc. 
-6. `Reusable components` created.
+4. Start the development server:
+```shell
+npm run dev
+# or
+yarn dev 
+```
+
+## Build and Deployment
+
+1. To create a production build:
+```shell
+npm run build
+# or
+yarn build 
+```
+
+2. To preview the production build locally:
+```shell
+npm run preview
+# or
+# yarn preview 
+```
+
+## Usage
+1. Log in to access the movie list.
+2. Browse through the paginated movie list.
+3. Click on a movie to view its details.
+4. Create a new movie using the "Add Movie" feature.
+5. Edit or update an existing movie.
+6. Use the logout feature to sign out securely.
+7. Change the language using the localization feature.
+
+
+# Requirement met description:
+1. Strictly following Figma design, totally `responsive` for `all screen sizes`.
+2. `Form validation` including `image size limitation`.
+3. Movie list `pagination`.
+4. `State management`, both local and global with `@reduxjs/toolkit`.
+5. `l10n` for EN and FR.
+
+# Bonus done:
+5. `Global theme` configured for long-term maintenance such as `Palette`, `Typography`, etc. 
+6. `Reusable components` created, such as `MyInput`, `MyButton`, `MyCheckbot` for future reuse.
 7. UI refined with `Friendly Alert`,  `Animations`, `file Drag n Drop`, `Back Button`, `Skeleton` `Loading indicator`, etc.
 8. Performance optimized such as `Performace hooks usage`, `Dynamic import`, `memo()`, `Cache data`,etc to improve UX.
 9. Use `React Query` to handle api calls.
 10. `Snack bar`, `Not Found Page` added for better UX.
 11. `Protected routes` implement.
 
-
-FUTURE:
 

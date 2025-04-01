@@ -63,12 +63,13 @@ npm run preview
 
 
 # Requirement met description:
-1. Strictly following Figma design, totally `responsive` for `all screen sizes`.
-2. `Form validation` including `image size limitation`.
-3. Movie list `pagination`.
-4. `State management`, both local and global with `@reduxjs/toolkit`.
-5. `l10n` for EN and FR.
-6. Deployed through `AWS S3`.
+1. Deployed through `AWS S3`.
+2. Strictly following Figma design, totally `responsive` for `all screen sizes`.
+3. `Form validation` implemented, including `image size limitation`.
+4. Movie list `pagination`.
+5. `State management`, both local and global with `@reduxjs/toolkit` and `React query`.
+6. `l10n` for EN and FR.
+
 
 # Bonus done:
 7. `Global theme` configured for long-term maintenance such as `Palette`, `Typography`, etc. 
@@ -77,6 +78,6 @@ npm run preview
 10. Performance optimized such as `Performace hooks usage`, `Dynamic import`, `memo()`, `Cache data`,etc to improve UX.
 11. Use `React Query` to handle api calls.
 12. `Snack bar`, `404 Not Found Page` added for better UX.
-13. `Protected routes` implement.
+13. `Protected routes` implemented.
 
 

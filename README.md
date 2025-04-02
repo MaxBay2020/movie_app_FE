@@ -4,13 +4,23 @@
 
 This is a Movie List application built using Vite, React, and TypeScript. The application allows users to manage a list of movies, including viewing, creating, updating, and paginating through movies. It also supports authentication and localization (i18n).
 
-## Features:
-+ User Authentication: Login and logout functionality and Securely.
-+ Movie List with Pagination: View a paginated list of movies.
-+ Movie Details Page: View detailed information about a movie.
-+ Movie Creation: Add a new movie to the list.
-+ Movie Update: Edit an existing movie.
-+ Localization (i18n): Supports multiple languages for internationalization.
+## Requirement met description:
+1. Deployed through `AWS S3`. ✅
+2. Strictly following Figma design, totally `responsive` for `all screen sizes`. ✅
+3. `Form validation` implemented, including `image size limitation`. ✅
+4. Movie list `pagination`. ✅
+5. `State management`, both local and global with `@reduxjs/toolkit` and `React query`. ✅
+6. `l10n` for EN and FR. ✅
+
+
+## Bonus done:
+7. `Global theme` configured for long-term maintenance such as `Palette`, `Typography`, etc. ✅
+8. `Reusable components` created, such as `MyInput`, `MyButton`, `MyCheckbot` for future reuse. ✅
+9. UI refined with `Friendly Alert`,  `Animations`, `file Drag n Drop`, `Back Button`, `Skeleton` `Loading indicator`, etc. ✅
+10. Performance optimized such as `Performace hooks usage`, `Dynamic import`, `memo()`, `Cache data`,etc to improve UX. ✅
+11. Use `React Query` to handle api calls. ✅
+12. `Snack bar`, `404 Not Found Page` added for better UX. ✅
+13. `Protected routes` implemented. ✅
 
 ## Installation
 1. Clone the repository:
@@ -62,22 +72,6 @@ npm run preview
 7. Change the language using the localization feature.
 
 
-# Requirement met description:
-1. Deployed through `AWS S3`.
-2. Strictly following Figma design, totally `responsive` for `all screen sizes`.
-3. `Form validation` implemented, including `image size limitation`.
-4. Movie list `pagination`.
-5. `State management`, both local and global with `@reduxjs/toolkit` and `React query`.
-6. `l10n` for EN and FR.
 
-
-# Bonus done:
-7. `Global theme` configured for long-term maintenance such as `Palette`, `Typography`, etc. 
-8. `Reusable components` created, such as `MyInput`, `MyButton`, `MyCheckbot` for future reuse.
-9. UI refined with `Friendly Alert`,  `Animations`, `file Drag n Drop`, `Back Button`, `Skeleton` `Loading indicator`, etc.
-10. Performance optimized such as `Performace hooks usage`, `Dynamic import`, `memo()`, `Cache data`,etc to improve UX.
-11. Use `React Query` to handle api calls.
-12. `Snack bar`, `404 Not Found Page` added for better UX.
-13. `Protected routes` implemented.
 
 

@@ -218,7 +218,7 @@ const MovieEditionForm = () => {
         movieFormData.append('publishingYear', movieInfo.publishingYear.toString())
         movieFormData.append('posterImage', movieInfo.posterImage!)
 
-        // updateMovie(movieFormData)
+        updateMovie(movieFormData)
     }
 
     const renderDropZoneBox = () => (

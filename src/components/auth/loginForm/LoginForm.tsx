@@ -14,6 +14,7 @@ import {Message} from "../../../utils/helper";
 import {userLogin} from "../../../features/authFeatures/userSlice";
 import {useAppDispatch} from "../../../redux/hooks";
 import {userType} from "../../../utils/types";
+import {useQueryClient} from "@tanstack/react-query";
 
 const LoginForm = () => {
 
@@ -22,6 +23,8 @@ const LoginForm = () => {
     const navigate = useNavigate()
 
     const dispatch = useAppDispatch()
+
+    const queryClient = useQueryClient()
 
     const onLoginSuccess = () => {
         dispatch(userLogin({
@@ -68,6 +71,7 @@ const LoginForm = () => {
         const { email, password, rememberMe } = userInfo
 
         loginUser({ email, password, rememberMe })
+        queryClient.invalidateQueries({ queryKey: ["queryAllMovies"] })
     }
 
     return (

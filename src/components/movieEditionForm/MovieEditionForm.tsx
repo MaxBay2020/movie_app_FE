@@ -147,7 +147,7 @@ const MovieEditionForm = () => {
         }
 
         setImagePreview(URL.createObjectURL(file))
-        setValue('posterImage', file, { shouldValidate: true })
+        setValue('posterImage', file, { shouldValidate: true, shouldDirty: true })
     }, [])
 
     const onDropRejected = useCallback(
@@ -194,7 +194,6 @@ const MovieEditionForm = () => {
 
 
     const handleUpdateMovie = (movieInfo: MovieFormType) => {
-        console.log(movieInfo)
         if(!isDirty){
             // not change anything
             return toast.error(t('moviesEditionPage.notChange'), {
@@ -219,7 +218,7 @@ const MovieEditionForm = () => {
         movieFormData.append('publishingYear', movieInfo.publishingYear.toString())
         movieFormData.append('posterImage', movieInfo.posterImage!)
 
-        updateMovie(movieFormData)
+        // updateMovie(movieFormData)
     }
 
     const renderDropZoneBox = () => (

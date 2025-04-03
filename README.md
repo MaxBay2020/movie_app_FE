@@ -5,7 +5,7 @@
 This is a Movie List application built using Vite, React, and TypeScript. The application allows users to manage a list of movies, including viewing, creating, updating, and paginating through movies. It also supports authentication and localization (i18n).
 
 ## Requirement met description:
-1. Deployed through `AWS S3`. ✅
+1. Deployed through `AWS S3` + `CloudFront`. ✅
 2. Strictly following Figma design, totally `responsive` for `all screen sizes`. ✅
 3. `Form validation` implemented, including `image size limitation`. ✅
 4. Movie list `pagination`. ✅
